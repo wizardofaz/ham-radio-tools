@@ -12,6 +12,8 @@ def write_summary(df, stats, title, outdir):
         f.write(f"Original QSOs: {stats['original']}\n")
         f.write(f"Filled from callsign reuse: {stats['filled_from_calls']}\n")
         f.write(f"Filled from grid inference: {stats['filled_from_grid']}\n")
+        f.write(f"  US state: {stats['filled_from_grid_us_state']}\n")
+        f.write(f"  VE province: {stats['filled_from_grid_ve_prov']}\n")
         f.write(f"Filled from QRZ lookup: {stats['filled_from_qrz']}\n")
 
         f.write("\nScope\n")

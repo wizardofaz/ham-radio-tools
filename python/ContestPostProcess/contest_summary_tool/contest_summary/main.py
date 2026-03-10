@@ -39,6 +39,8 @@ def main():
     print(f"  QSOs loaded: {stats['original']}")
     print(f"  Filled from callsign reuse: {stats['filled_from_calls']}")
     print(f"  Filled from grid inference: {stats['filled_from_grid']}")
+    print(f"    US state: {stats['filled_from_grid_us_state']}")
+    print(f"    VE province: {stats['filled_from_grid_ve_prov']}")
     print(f"  Filled from QRZ lookup: {stats['filled_from_qrz']}")
     print("  Scope:")
     print(f"    US QSOs: {stats['qso_scope']['US_QSOS']}")
@@ -49,7 +51,7 @@ def main():
     print(f"    COUNTRY: {stats['missing_after']['COUNTRY']}")
     print(f"    GRIDSQUARE: {stats['missing_after']['GRIDSQUARE']}")
     print(f"    CONT: {stats['missing_after']['CONT']}")
-        
+            
     if args.summary:
         write_summary(df, stats, title, outdir)
 

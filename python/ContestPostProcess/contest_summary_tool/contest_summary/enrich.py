@@ -1,5 +1,7 @@
 import pandas as pd
 
+from .geo_infer import infer_admin1_from_grid
+
 
 FIELDS_TO_REUSE = ["STATE", "VE_PROV", "COUNTRY", "GRIDSQUARE", "CONT"]
 
@@ -24,13 +26,10 @@ def is_us_qso(row):
     country = clean_value(row.get("COUNTRY"))
     dxcc = clean_value(row.get("DXCC"))
 
-    if country in {"United States", "USA", "U.S.A."}:
+    if country in {"United States", "United States of America", "USA", "U.S.A."}:
         return True
-
-    # Common ADIF DXCC for lower-48 USA
     if dxcc == "291":
         return True
-
     return False
 
 
@@ -40,11 +39,8 @@ def is_canada_qso(row):
 
     if country == "Canada":
         return True
-
-    # Common ADIF DXCC for Canada
     if dxcc == "1":
         return True
-
     return False
 
 
@@ -70,6 +66,8 @@ def enrich_records(df, use_qrz=False):
         "original": len(df),
         "filled_from_calls": 0,
         "filled_from_grid": 0,
+        "filled_from_grid_us_state": 0,
+        "filled_from_grid_ve_prov": 0,
         "filled_from_qrz": 0,
     }
 
@@ -108,7 +106,42 @@ def enrich_records(df, use_qrz=False):
                 df.at[idx, field] = info[field]
                 stats["filled_from_calls"] += 1
 
-    # Relevance-aware missing counts
+    # Grid-based inference:
+    # - use grid-6 directly when available
+    # - otherwise use grid-4
+    # - accept only if exactly one target admin-1 polygon intersects the box
+    # - if ambiguous, leave unresolved for QRZ later
+    for idx, row in df.iterrows():
+        grid = clean_value(row.get("GRIDSQUARE"))
+        if not grid:
+            continue
+
+        inferred = infer_admin1_from_grid(grid)
+        if not inferred:
+            continue
+
+        # US state
+        if inferred["country_code"] == "US" and is_missing(row.get("STATE")):
+            df.at[idx, "STATE"] = inferred["admin1_abbrev"]
+            if is_missing(row.get("COUNTRY")):
+                df.at[idx, "COUNTRY"] = "United States of America"
+            stats["filled_from_grid"] += 1
+            stats["filled_from_grid_us_state"] += 1
+            continue
+
+        # Canada province
+        if inferred["country_code"] == "CA" and is_missing(row.get("VE_PROV")):
+            df.at[idx, "VE_PROV"] = inferred["admin1_abbrev"]
+            if is_missing(row.get("COUNTRY")):
+                df.at[idx, "COUNTRY"] = "Canada"
+            stats["filled_from_grid"] += 1
+            stats["filled_from_grid_ve_prov"] += 1
+            continue
+
+        # Leave Mexico and other inferred admin-1 results unused for now.
+        # They are still useful as ambiguity blockers because infer_admin1_from_grid()
+        # returns None when the box intersects multiple target polygons.
+
     stats["missing_after"] = {
         "STATE_US_ONLY": count_missing_where(df, "STATE", is_us_qso),
         "VE_PROV_CANADA_ONLY": count_missing_where(df, "VE_PROV", is_canada_qso),
@@ -117,7 +150,6 @@ def enrich_records(df, use_qrz=False):
         "CONT": count_missing(df, "CONT"),
     }
 
-    # Useful context counts
     stats["qso_scope"] = {
         "US_QSOS": sum(1 for _, row in df.iterrows() if is_us_qso(row)),
         "CANADA_QSOS": sum(1 for _, row in df.iterrows() if is_canada_qso(row)),
