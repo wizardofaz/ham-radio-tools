@@ -1,1 +1,1 @@
-Collection of a few small Ham Radio related tools. Originally some utilities for post-processing logs.
+Collection of a few small Ham Radio related tools. Initially some utilities for post-processing logs.
