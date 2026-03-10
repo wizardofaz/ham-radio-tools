@@ -14,10 +14,18 @@ def write_summary(df, stats, title, outdir):
         f.write(f"Filled from grid inference: {stats['filled_from_grid']}\n")
         f.write(f"Filled from QRZ lookup: {stats['filled_from_qrz']}\n")
 
+        f.write("\nScope\n")
+        f.write("-----\n")
+        f.write(f"US QSOs: {stats['qso_scope']['US_QSOS']}\n")
+        f.write(f"Canada QSOs: {stats['qso_scope']['CANADA_QSOS']}\n")
+
         f.write("\nMissing after enrichment\n")
         f.write("------------------------\n")
-        for field, count in stats["missing_after"].items():
-            f.write(f"{field}: {count}\n")
+        f.write(f"STATE (US only): {stats['missing_after']['STATE_US_ONLY']}\n")
+        f.write(f"VE_PROV (Canada only): {stats['missing_after']['VE_PROV_CANADA_ONLY']}\n")
+        f.write(f"COUNTRY: {stats['missing_after']['COUNTRY']}\n")
+        f.write(f"GRIDSQUARE: {stats['missing_after']['GRIDSQUARE']}\n")
+        f.write(f"CONT: {stats['missing_after']['CONT']}\n")
 
         f.write("\nBand counts\n")
         f.write("-----------\n")

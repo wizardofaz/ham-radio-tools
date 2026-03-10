@@ -20,6 +20,45 @@ def clean_value(value):
     return value
 
 
+def is_us_qso(row):
+    country = clean_value(row.get("COUNTRY"))
+    dxcc = clean_value(row.get("DXCC"))
+
+    if country in {"United States", "USA", "U.S.A."}:
+        return True
+
+    # Common ADIF DXCC for lower-48 USA
+    if dxcc == "291":
+        return True
+
+    return False
+
+
+def is_canada_qso(row):
+    country = clean_value(row.get("COUNTRY"))
+    dxcc = clean_value(row.get("DXCC"))
+
+    if country == "Canada":
+        return True
+
+    # Common ADIF DXCC for Canada
+    if dxcc == "1":
+        return True
+
+    return False
+
+
+def count_missing_where(df, field, predicate):
+    if field not in df.columns:
+        return sum(1 for _, row in df.iterrows() if predicate(row))
+
+    count = 0
+    for _, row in df.iterrows():
+        if predicate(row) and is_missing(row.get(field)):
+            count += 1
+    return count
+
+
 def count_missing(df, field):
     if field not in df.columns:
         return len(df)
@@ -35,7 +74,7 @@ def enrich_records(df, use_qrz=False):
     }
 
     # Normalize fields we care about
-    for field in ["CALL"] + FIELDS_TO_REUSE:
+    for field in ["CALL", "DXCC"] + FIELDS_TO_REUSE:
         if field not in df.columns:
             df[field] = None
         df[field] = df[field].apply(clean_value)
@@ -69,12 +108,19 @@ def enrich_records(df, use_qrz=False):
                 df.at[idx, field] = info[field]
                 stats["filled_from_calls"] += 1
 
+    # Relevance-aware missing counts
     stats["missing_after"] = {
-        "STATE": count_missing(df, "STATE"),
-        "VE_PROV": count_missing(df, "VE_PROV"),
+        "STATE_US_ONLY": count_missing_where(df, "STATE", is_us_qso),
+        "VE_PROV_CANADA_ONLY": count_missing_where(df, "VE_PROV", is_canada_qso),
         "COUNTRY": count_missing(df, "COUNTRY"),
         "GRIDSQUARE": count_missing(df, "GRIDSQUARE"),
         "CONT": count_missing(df, "CONT"),
+    }
+
+    # Useful context counts
+    stats["qso_scope"] = {
+        "US_QSOS": sum(1 for _, row in df.iterrows() if is_us_qso(row)),
+        "CANADA_QSOS": sum(1 for _, row in df.iterrows() if is_canada_qso(row)),
     }
 
     return df, stats

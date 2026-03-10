@@ -40,13 +40,16 @@ def main():
     print(f"  Filled from callsign reuse: {stats['filled_from_calls']}")
     print(f"  Filled from grid inference: {stats['filled_from_grid']}")
     print(f"  Filled from QRZ lookup: {stats['filled_from_qrz']}")
+    print("  Scope:")
+    print(f"    US QSOs: {stats['qso_scope']['US_QSOS']}")
+    print(f"    Canada QSOs: {stats['qso_scope']['CANADA_QSOS']}")
     print("  Missing after enrichment:")
-    print(f"    STATE: {stats['missing_after']['STATE']}")
-    print(f"    VE_PROV: {stats['missing_after']['VE_PROV']}")
+    print(f"    STATE (US only): {stats['missing_after']['STATE_US_ONLY']}")
+    print(f"    VE_PROV (Canada only): {stats['missing_after']['VE_PROV_CANADA_ONLY']}")
     print(f"    COUNTRY: {stats['missing_after']['COUNTRY']}")
     print(f"    GRIDSQUARE: {stats['missing_after']['GRIDSQUARE']}")
     print(f"    CONT: {stats['missing_after']['CONT']}")
-    
+        
     if args.summary:
         write_summary(df, stats, title, outdir)
 
