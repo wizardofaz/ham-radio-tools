@@ -1,0 +1,8 @@
+matplotlib
+pandas
+geopandas
+geodatasets
+shapely
+pyproj
+fiona
+pyogrio
