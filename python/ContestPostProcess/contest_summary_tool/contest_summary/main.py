@@ -35,7 +35,14 @@ def main():
     print("Generating map...")
     render_map(df, title, outdir, args)
 
+    print("\nEnrichment statistics:")
+    print(f"  QSOs loaded: {stats['original']}")
+    print(f"  Filled from callsign reuse: {stats['filled_from_calls']}")
+    print(f"  Filled from grid inference: {stats['filled_from_grid']}")
+    print(f"  Filled from QRZ lookup: {stats['filled_from_qrz']}")
+
     if args.summary:
         write_summary(df, stats, title, outdir)
 
-    print("Done.")
+    print("\nDone.")
+    
