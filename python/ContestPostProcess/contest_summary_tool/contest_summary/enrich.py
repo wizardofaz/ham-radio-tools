@@ -99,6 +99,31 @@ def normalize_qrz_canada_prov(state_value):
     }
     return mapping.get(state_value.upper())
 
+def apply_grid_inference_pass(df, stats):
+    for idx, row in df.iterrows():
+        grid = clean_value(row.get("GRIDSQUARE"))
+        if not grid:
+            continue
+
+        inferred = infer_admin1_from_grid(grid)
+        if not inferred:
+            continue
+
+        if inferred["country_code"] == "US" and is_missing(row.get("STATE")):
+            df.at[idx, "STATE"] = inferred["admin1_abbrev"]
+            if is_missing(row.get("COUNTRY")):
+                df.at[idx, "COUNTRY"] = "United States of America"
+            stats["filled_from_grid"] += 1
+            stats["filled_from_grid_us_state"] += 1
+            continue
+
+        if inferred["country_code"] == "CA" and is_missing(row.get("VE_PROV")):
+            df.at[idx, "VE_PROV"] = inferred["admin1_abbrev"]
+            if is_missing(row.get("COUNTRY")):
+                df.at[idx, "COUNTRY"] = "Canada"
+            stats["filled_from_grid"] += 1
+            stats["filled_from_grid_ve_prov"] += 1
+            continue
 
 def enrich_records(df, use_qrz=False, qrz_cache_path=None):
     stats = {
@@ -155,31 +180,8 @@ def enrich_records(df, use_qrz=False, qrz_cache_path=None):
                 df.at[idx, field] = info[field]
                 stats["filled_from_calls"] += 1
 
-    # Grid-based inference
-    for idx, row in df.iterrows():
-        grid = clean_value(row.get("GRIDSQUARE"))
-        if not grid:
-            continue
-
-        inferred = infer_admin1_from_grid(grid)
-        if not inferred:
-            continue
-
-        if inferred["country_code"] == "US" and is_missing(row.get("STATE")):
-            df.at[idx, "STATE"] = inferred["admin1_abbrev"]
-            if is_missing(row.get("COUNTRY")):
-                df.at[idx, "COUNTRY"] = "United States of America"
-            stats["filled_from_grid"] += 1
-            stats["filled_from_grid_us_state"] += 1
-            continue
-
-        if inferred["country_code"] == "CA" and is_missing(row.get("VE_PROV")):
-            df.at[idx, "VE_PROV"] = inferred["admin1_abbrev"]
-            if is_missing(row.get("COUNTRY")):
-                df.at[idx, "COUNTRY"] = "Canada"
-            stats["filled_from_grid"] += 1
-            stats["filled_from_grid_ve_prov"] += 1
-            continue
+    # First grid-based inference pass
+    apply_grid_inference_pass(df, stats)
 
     # QRZ fallback
     qrz_client = None
@@ -192,7 +194,34 @@ def enrich_records(df, use_qrz=False, qrz_cache_path=None):
             qrz_client = None
 
     if qrz_client:
+        rows_needing_qrz = []
+
         for idx, row in df.iterrows():
+            call = clean_value(row.get("CALL"))
+            if not call:
+                continue
+
+            needs_state = is_us_qso(row) and is_missing(row.get("STATE"))
+            needs_ve_prov = is_canada_qso(row) and is_missing(row.get("VE_PROV"))
+            needs_country = is_missing(row.get("COUNTRY"))
+            needs_grid = is_missing(row.get("GRIDSQUARE"))
+
+            if needs_state or needs_ve_prov or needs_country or needs_grid:
+                rows_needing_qrz.append(idx)
+
+        total_qrz = len(rows_needing_qrz)
+        if total_qrz:
+            print(f"QRZ enrichment required for {total_qrz} QSOs")
+
+        for i, idx in enumerate(rows_needing_qrz, start=1):
+            row = df.loc[idx]
+
+            if i == 1 or i % 50 == 0 or i == total_qrz:
+                print(
+                    f"QRZ progress: {i}/{total_qrz}  "
+                    f"(cache hits so far: {qrz_client.stats['qrz_cache_hits']}, "
+                    f"live queries so far: {qrz_client.stats['qrz_queries_attempted']})"
+                )            
             call = clean_value(row.get("CALL"))
             if not call:
                 continue
@@ -261,6 +290,9 @@ def enrich_records(df, use_qrz=False, qrz_cache_path=None):
         stats["qrz_stripped_hits"] = qrz_client.stats["qrz_stripped_hits"]
         stats["qrz_not_found"] = qrz_client.stats["qrz_not_found"]
         stats["qrz_login_retries"] = qrz_client.stats["qrz_login_retries"]
+
+        # Second grid-based inference pass, now that QRZ may have added grids/country
+        apply_grid_inference_pass(df, stats)
 
     stats["missing_after"] = {
         "STATE_US_ONLY": count_missing_where(df, "STATE", is_us_qso),

@@ -1,3 +1,4 @@
+import time
 from pathlib import Path
 
 from .cli import parse_args
@@ -9,6 +10,8 @@ from .summary import write_summary
 
 
 def main():
+    start_time = time.time()
+
     args = parse_args()
 
     adif_path = Path(args.adif)
@@ -68,7 +71,12 @@ def main():
     print(f"    GRIDSQUARE: {stats['missing_after']['GRIDSQUARE']}")
     print(f"    CONT: {stats['missing_after']['CONT']}")
 
+    elapsed = time.time() - start_time
+    minutes = int(elapsed // 60)
+    seconds = int(elapsed % 60)
+    print(f"\nElapsed time: {minutes} min {seconds} sec")
+
     if args.summary:
-        write_summary(df, stats, title, outdir)
+        write_summary(df, stats, title, outdir, elapsed_seconds=elapsed)
 
     print("\nDone.")

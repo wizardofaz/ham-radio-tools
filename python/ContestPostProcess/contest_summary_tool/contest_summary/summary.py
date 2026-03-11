@@ -1,4 +1,5 @@
-def write_summary(df, stats, title, outdir):
+def write_summary(df, stats, title, outdir, elapsed_seconds=None):
+
     outfile = outdir / "summary.txt"
 
     with open(outfile, "w") as f:
@@ -6,6 +7,11 @@ def write_summary(df, stats, title, outdir):
         f.write("=" * len(title) + "\n\n")
 
         f.write(f"Total QSOs: {len(df)}\n\n")
+
+        if elapsed_seconds is not None:
+            minutes = int(elapsed_seconds // 60)
+            seconds = int(elapsed_seconds % 60)
+            f.write(f"Elapsed time: {minutes} min {seconds} sec\n\n")
 
         f.write("Enrichment statistics\n")
         f.write("---------------------\n")

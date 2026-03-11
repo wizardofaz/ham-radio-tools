@@ -132,6 +132,30 @@ class QRZLookupClient:
             "qrz_login_retries": 0,
         }
 
+    def _cache_ttl_seconds(self, entry):
+        query_call = (entry.get("query_call") or "").upper()
+        found = entry.get("found", False)
+        lookup_mode = entry.get("lookup_mode")
+
+        if not found:
+            return 7 * 86400
+
+        if "/" in query_call:
+            return 3 * 86400
+
+        if lookup_mode == "stripped":
+            return 30 * 86400
+
+        return 180 * 86400
+
+    def _cache_entry_is_fresh(self, entry):
+        ts = entry.get("timestamp")
+        if not ts:
+            return False
+
+        age = time.time() - ts
+        return age < self._cache_ttl_seconds(entry)
+
     def enabled(self):
         return bool(self.username and self.password)
 
@@ -233,6 +257,7 @@ class QRZLookupClient:
 
         self.stats["qrz_queries_attempted"] += 1
 
+        time.sleep(1)
         xml_bytes = self._http_get_xml({
             "s": self.session_key,
             "callsign": query_call,
