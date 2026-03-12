@@ -233,21 +233,27 @@ yes
 
 ## --overwrite
 
-Overwrite existing generated chart files.
+Overwrite previously generated output files.
 
-Default behavior:
+This applies to:
 
-- existing chart files are left in place
-- a warning is printed for each existing chart file
-- missing chart files are still generated
+- chart PNG files
+- map PNG files
+- `summary.txt`
+
+Default behavior without `--overwrite`:
+
+- existing generated output files are left in place
+- a warning is printed for each existing output file
+- files that do not yet exist are still generated
+
+This does **not** apply to `qrz_cache.json`, which is a lookup cache used to speed future runs.
 
 Example:
 
 ```
---overwrite
+python contest_summary.py "W1AW_7_event.adi" --outdir results --overwrite
 ```
-
----
 
 # Data Enrichment Pipeline
 
@@ -400,11 +406,64 @@ pip install -r requirements.txt
 # Notes
 
 - Charts are currently generated as PNG files.
-- Existing chart files are skipped unless `--overwrite` is given.
+- Existing generated output files are skipped unless `--overwrite` is given.
+- `qrz_cache.json` is cache data and is not governed by `--overwrite`.
 - Map counts and chart set may continue to evolve as the project develops.
 
 ---
 
 # License
 
-Open source. Modify and share as needed within the amateur radio community.
+Open source. Modify and share as needed within the amateur radio community.---
+
+# Project Structure
+
+The contest summary tool is implemented as a small Python package within the repository.
+
+```
+python/ContestPostProcess/
+│
+├─ contest_summary.py
+│     Entry-point script used to run the tool.
+│
+├─ requirements.txt
+│     Python dependencies required for maps, charts, and ADIF parsing.
+│
+├─ README.md
+│     Documentation for this tool.
+│
+└─ contest_summary_tool/
+      Python package containing the implementation.
+
+      └─ contest_summary/
+           │
+           ├─ cli.py
+           │     Command-line argument parsing.
+           │
+           ├─ main.py
+           │     Main workflow coordinating parsing, enrichment,
+           │     chart generation, maps, and summaries.
+           │
+           ├─ adif_utils.py
+           │     ADIF parsing and initial data loading.
+           │
+           ├─ enrich.py
+           │     Data enrichment pipeline including:
+           │       • callsign reuse
+           │       • grid inference
+           │       • optional QRZ lookup
+           │
+           ├─ qrz_lookup.py
+           │     QRZ API interaction and local cache handling.
+           │
+           ├─ charts.py
+           │     Chart generation using matplotlib.
+           │
+           ├─ maps.py
+           │     Geographic map rendering using GeoPandas.
+           │
+           └─ summary.py
+                 Plain-text summary report generation.
+```
+
+This modular layout keeps responsibilities separated and makes it easier to extend the tool with additional charts, maps, or enrichment steps.

@@ -1,7 +1,11 @@
-def write_summary(df, stats, title, outdir, elapsed_seconds=None):
+from .output_control import should_write_output
+
+def write_summary(df, stats, title, outdir, elapsed_seconds=None, overwrite=False):
 
     outfile = outdir / "summary.txt"
-
+    if not should_write_output(outfile, overwrite=overwrite):
+        return
+    
     with open(outfile, "w") as f:
         f.write(title + "\n")
         f.write("=" * len(title) + "\n\n")

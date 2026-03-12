@@ -39,7 +39,7 @@ def main():
     render_continent_pie(df, title, outdir, overwrite=args.overwrite)
 
     print("Generating map...")
-    render_map(df, title, outdir, args)
+    render_map(df, title, outdir, args, overwrite=args.overwrite)
 
     print("\nEnrichment statistics:")
     print(f" QSOs loaded: {stats['original']}")
@@ -75,6 +75,13 @@ def main():
     print(f"\nElapsed time: {minutes} min {seconds} sec")
 
     if args.summary:
-        write_summary(df, stats, title, outdir, elapsed_seconds=elapsed)
+        write_summary(
+            df,
+            stats,
+            title,
+            outdir,
+            elapsed_seconds=elapsed,
+            overwrite=args.overwrite,
+        )
 
     print("\nDone.")
