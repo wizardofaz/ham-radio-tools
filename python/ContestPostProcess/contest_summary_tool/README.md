@@ -1,285 +1,410 @@
 # Contest Summary Tool
 
-A Python utility for generating **post-event statistics, charts, and maps** from amateur radio **ADIF logs**.
+A Python utility for generating summary graphics and statistics from ADIF contest logs.
 
-The tool was developed to summarize multi-operator club activity during contests and special events. It produces operator statistics, band/mode summaries, and visual maps showing worked states, provinces, and DX entities.
+Current outputs include:
 
-Typical uses include:
+- Band distribution pie chart
+- Continent distribution pie chart
+- Contact map (various styles)
+- Plain-text summary report
 
-- Club meeting presentations
-- Post-event reports
-- Contest summaries
-- Activity visualization
-
-The tool works directly on **ADIF log files** and enriches missing geographic data using several techniques including grid inference and optional QRZ lookups.
+The tool also performs data enrichment to improve map and summary quality when ADIF fields are incomplete.
 
 ---
 
-# Features
+# Quick Start
 
-## Log analysis
+## 1. Clone the repository
 
-From an ADIF file the tool produces:
+```
+git clone https://github.com/wizardofaz/ham-radio-tools.git
+cd ham-radio-tools/python/ContestPostProcess
+```
 
-- Total QSO count
-- Band distribution
-- Continent distribution
-- Q count by operator
-- Operating time by operator (session-based)
-- Mode distribution
+## 2. Create and activate a virtual environment
 
----
+Windows:
 
-## Geographic visualization
+```
+python -m venv venv
+venv\Scripts\activate
+```
 
-Maps generated from the log:
+Linux / macOS:
 
-- **World map** of worked countries
-- **US states + Canadian provinces + DX map**
-- **North America view** emphasizing Worked-All-States style coverage
+```
+python -m venv venv
+source venv/bin/activate
+```
 
-Example map coloring:
+## 3. Install dependencies
 
-- **Blue** — US states worked
-- **Green** — Canadian provinces worked
-- **Gold** — DX entities worked
-
----
-
-## Data enrichment
-
-Missing geographic fields can be filled using several techniques.
-
-### 1. Callsign reuse
-
-If a callsign appears multiple times in the log with location data, later QSOs reuse that information.
-
-### 2. Grid inference
-
-If a Maidenhead grid square is present, the tool infers:
-
-- US state
-- Canadian province
-
-### 3. QRZ lookup (optional)
-
-Missing information can be retrieved from the **QRZ XML API**.
-
-Returned data may include:
-
-- state
-- country
-- grid square
-
-Results are cached locally to avoid repeated queries.
+```
+pip install -r requirements.txt
+```
 
 ---
 
-# Charts
+# Running the Tool
 
-The tool produces several PNG charts suitable for presentations.
+Basic example:
 
-## Band distribution
+```
+python contest_summary.py "K7RST 2026 ARRL DX PH.adi"
+```
 
-Pie chart showing QSOs by band.
+By default, outputs are written to the same directory as the input ADIF file.
 
-## Continent distribution
+Example with options:
 
-Pie chart showing QSOs by continent.
+```
+python contest_summary.py "W1AW_7_event.adi" \
+  --title "WAS50-AZ Event Summary" \
+  --map states_dx \
+  --qrz yes \
+  --outdir results
+```
 
-## Q count by operator
+Example forcing chart regeneration:
 
-Pie chart showing the number of QSOs contributed by each operator.
-
-## Operating time by operator
-
-Pie chart showing approximate operating time based on session detection.
-
-A new session begins when the gap between QSOs exceeds a configurable threshold.
-
-Default: 30 minutes
-
-Minimum session duration is automatically set to: session_gap / 2
-
-This prevents isolated QSOs from appearing as zero-length sessions.
-
----
-
-# Mode-aware operator charts
-
-Operator charts can optionally show the **mode breakdown within each operator**.
-
-Modes are grouped into four categories:
-
-| Category | ADIF Modes |
-|--------|--------|
-| CW | CW |
-| PH | SSB, USB, LSB, PHONE |
-| DIG | FT8, FT4, RTTY, PSK, Olivia, etc |
-| Other | anything else |
-
-When enabled, charts are rendered as **nested donut charts**.
-
-Outer ring: operator share
-
-Inner ring: mode breakdown per operator
-
-This allows the chart to show both **who operated** and **how they operated**.
+```
+python contest_summary.py "W1AW_7_event.adi" \
+  --title "WAS50-AZ Event Summary" \
+  --map states_dx \
+  --qrz yes \
+  --outdir results \
+  --overwrite
+```
 
 ---
-
-# Maps
-
-Three map styles are available.
-
-## Countries map
-
-World map highlighting worked countries.
-
-## States + DX map
-
-Shows:
-
-- US states worked
-- Canadian provinces worked
-- DX countries
-
-## North America states map
-
-Focused view emphasizing:
-
-- US states
-- Canadian provinces
-
-Also displays the number of non-NA DX entities worked.
-
----
-
-# Installation
-
-Create a Python environment and install dependencies.
-
-Example using **conda**:
-
-```bash
-conda create -n contestmaps python=3.11
-conda activate contestmaps
-pip install pandas matplotlib geopandas adif_io requests
 
 # Usage
 
-Basic Usage
+```
+python contest_summary.py LOGFILE.adi [options]
+```
 
-python run_contest_summary.py LOGFILE.adi
+---
+
+# Required Argument
+
+## LOGFILE.adi
+
+Path to the ADIF file to process.
 
 Example:
 
-python run_contest_summary.py "W1AW_7_event_log.adi"
+```
+python contest_summary.py "K7RST 2026 ARRL DX PH.adi"
+```
 
-Optional arguments
-Enable QRZ lookups
---qrz yes
+---
 
-Requires environment variables:
+# Optional Arguments
 
-QRZ_USERNAME
-QRZ_PASSWORD
-Map type
---map countries
---map states_dx
---map na_states_dx
+## --title
+
+Sets the title used on charts and maps.
+
+Default: derived from the ADIF filename.
+
+Example:
+
+```
+--title "ARRL DX SSB 2026 — K7RST"
+```
+
+---
+
+## --map
+
+Selects the map style.
+
+Available modes:
+
+| Mode | Description |
+|-----|-------------|
+| countries | World map highlighting worked countries |
+| states_dx | World map showing US states, Canadian provinces, and non-NA DX countries |
+| na_states_dx | North America–focused map highlighting states and provinces |
 
 Default:
 
+```
 countries
-Session gap
+```
 
-Define the gap (minutes) used to split operating sessions.
+Examples:
 
---session-gap 30
+```
+--map countries
+--map states_dx
+--map na_states_dx
+```
 
-Minimum session duration automatically becomes:
+---
 
-session_gap / 2
-Operator mode breakdown
+## --qrz
 
-Control whether operator charts include mode information.
+Allows QRZ.com lookups to fill missing information.
 
-Suggested values:
+Lookup occurs only when needed, after local enrichment steps do not provide enough data.
 
---operator-modes off
---operator-modes donut
---operator-modes both
+Values:
 
-Meaning:
+```
+yes
+no
+```
 
-Value	Behavior
-off	simple operator pie charts
-donut	nested donut charts with mode breakdown
-both	generate both versions
-Output
+Default:
 
-The tool generates files in the output directory.
+```
+no
+```
 
-Typical output:
+Example:
 
-summary.txt
+```
+--qrz yes
+```
+
+QRZ credentials are expected via environment variables:
+
+```
+QRZ_USERNAME
+QRZ_PASSWORD
+```
+
+---
+
+## --outdir
+
+Directory where generated files will be written.
+
+Default: same directory as the input ADIF file.
+
+Example:
+
+```
+--outdir results
+```
+
+---
+
+## --include-lower48
+
+Controls whether the continental US is highlighted in `countries` map mode.
+
+Values:
+
+```
+yes
+no
+```
+
+Default:
+
+```
+no
+```
+
+---
+
+## --summary
+
+Controls generation of the plain-text summary file.
+
+Values:
+
+```
+yes
+no
+```
+
+Default:
+
+```
+yes
+```
+
+---
+
+## --overwrite
+
+Overwrite existing generated chart files.
+
+Default behavior:
+
+- existing chart files are left in place
+- a warning is printed for each existing chart file
+- missing chart files are still generated
+
+Example:
+
+```
+--overwrite
+```
+
+---
+
+# Data Enrichment Pipeline
+
+To improve output quality, the tool attempts to fill missing location-related information in stages.
+
+## 1. Use values already present in the ADIF log
+
+Fields used directly when available include:
+
+- STATE
+- VE_PROV
+- COUNTRY
+- CONT
+- GRIDSQUARE
+
+---
+
+## 2. Reuse values from other QSOs with the same callsign
+
+If the same callsign appears elsewhere in the log with better location data, that information may be reused.
+
+---
+
+## 3. Infer from grid square
+
+When a grid square is present, the tool may infer state or province.
+
+This helps avoid unnecessary external lookups.
+
+---
+
+## 4. Optional QRZ lookup
+
+If enabled, QRZ lookups may supply missing values such as:
+
+- state
+- province
+- country
+- grid square
+
+QRZ lookups are attempted only after the earlier enrichment steps.
+
+A cache file is written in the output directory to reduce repeated lookups on later runs.
+
+---
+
+# Output Files
+
+Generated files are written to the output directory.
+
+Typical outputs include:
+
+```
 band_distribution.png
 continent_distribution.png
-operator_qcount.png
-operator_time.png
-countries_map.png
-states_dx_map.png
-na_states_dx_map.png
-
-If donut charts are enabled:
-
-operator_qcount_donut.png
-operator_time_donut.png
-QRZ caching
-
-QRZ lookups are cached locally:
-
+summary.txt
 qrz_cache.json
+```
 
-This dramatically speeds up subsequent runs.
+The map filename depends on the selected map mode and current map rendering logic.
 
-Cache entries automatically expire depending on the callsign type.
+---
 
-Typical TTL values:
+# Map Modes
 
-Callsign type	TTL
-Portable callsigns	~3 days
-Normal callsigns	~180 days
-Failed lookups	~7 days
-Example workflow
+## countries
 
-Typical usage after a contest:
+World map showing worked countries.
 
-python run_contest_summary.py event_log.adi --qrz yes --map na_states_dx
+Best suited for DX-heavy contests.
 
-Produces:
+---
 
-enriched summary statistics
+## states_dx
 
-charts for presentation
+Full world map showing:
 
-maps for reports
+- US states worked
+- Canadian provinces worked
+- DX countries outside North America
 
-Future improvements
+Best suited for mixed domestic/DX events such as special-event stations and WAS-style activity.
 
-Ideas under consideration:
+---
 
-Cabrillo log input
+## na_states_dx
 
-DXCC entity maps
+North America-focused map showing:
 
-time-of-day activity charts
+- US states worked
+- Canadian provinces worked
 
-band × operator heatmaps
+Useful for domestic-focused events.
 
-HTML summary report
+---
 
-License
+# Example Commands
 
-Open source. Use and modify freely.
+## DX Contest
+
+```
+python contest_summary.py "K7RST 2026 ARRL DX PH.adi" \
+  --title "K7RST ARRL DX SSB 2026" \
+  --map countries
+```
+
+## WAS-Style Event
+
+```
+python contest_summary.py "W1AW_7_event.adi" \
+  --title "WAS50-AZ Event Summary" \
+  --map states_dx
+```
+
+## WAS-Style Event with QRZ lookups and overwrite
+
+```
+python contest_summary.py "W1AW_7_event.adi" \
+  --title "WAS50-AZ Event Summary" \
+  --map states_dx \
+  --qrz yes \
+  --outdir results \
+  --overwrite
+```
+
+---
+
+# Requirements
+
+Typical Python dependencies include:
+
+- matplotlib
+- pandas
+- geopandas
+- geodatasets
+- shapely
+- pyproj
+- fiona
+- pyogrio
+- adif_io
+
+Install with:
+
+```
+pip install -r requirements.txt
+```
+
+---
+
+# Notes
+
+- Charts are currently generated as PNG files.
+- Existing chart files are skipped unless `--overwrite` is given.
+- Map counts and chart set may continue to evolve as the project develops.
+
+---
+
+# License
+
+Open source. Modify and share as needed within the amateur radio community.

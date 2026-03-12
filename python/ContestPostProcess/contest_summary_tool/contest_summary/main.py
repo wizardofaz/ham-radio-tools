@@ -13,14 +13,12 @@ def main():
     start_time = time.time()
 
     args = parse_args()
-
     adif_path = Path(args.adif)
 
     if args.outdir:
         outdir = Path(args.outdir)
     else:
         outdir = adif_path.parent
-
     outdir.mkdir(parents=True, exist_ok=True)
 
     title = args.title if args.title else adif_path.stem
@@ -37,39 +35,39 @@ def main():
     )
 
     print("Generating charts...")
-    render_band_pie(df, title, outdir)
-    render_continent_pie(df, title, outdir)
+    render_band_pie(df, title, outdir, overwrite=args.overwrite)
+    render_continent_pie(df, title, outdir, overwrite=args.overwrite)
 
     print("Generating map...")
     render_map(df, title, outdir, args)
 
     print("\nEnrichment statistics:")
-    print(f"  QSOs loaded: {stats['original']}")
-    print(f"  Filled from callsign reuse: {stats['filled_from_calls']}")
-    print(f"  Filled from grid inference: {stats['filled_from_grid']}")
-    print(f"    US state: {stats['filled_from_grid_us_state']}")
-    print(f"    VE province: {stats['filled_from_grid_ve_prov']}")
-    print(f"  Filled from QRZ lookup: {stats['filled_from_qrz']}")
-    print(f"    STATE: {stats['filled_from_qrz_state']}")
-    print(f"    VE_PROV: {stats['filled_from_qrz_ve_prov']}")
-    print(f"    COUNTRY: {stats['filled_from_qrz_country']}")
-    print(f"    GRIDSQUARE: {stats['filled_from_qrz_grid']}")
-    print("  QRZ details:")
-    print(f"    Cache hits: {stats['qrz_cache_hits']}")
-    print(f"    Queries attempted: {stats['qrz_queries_attempted']}")
-    print(f"    Exact hits: {stats['qrz_exact_hits']}")
-    print(f"    Stripped-call hits: {stats['qrz_stripped_hits']}")
-    print(f"    Not found: {stats['qrz_not_found']}")
-    print(f"    Login retries: {stats['qrz_login_retries']}")
-    print("  Scope:")
-    print(f"    US QSOs: {stats['qso_scope']['US_QSOS']}")
-    print(f"    Canada QSOs: {stats['qso_scope']['CANADA_QSOS']}")
-    print("  Missing after enrichment:")
-    print(f"    STATE (US only): {stats['missing_after']['STATE_US_ONLY']}")
-    print(f"    VE_PROV (Canada only): {stats['missing_after']['VE_PROV_CANADA_ONLY']}")
-    print(f"    COUNTRY: {stats['missing_after']['COUNTRY']}")
-    print(f"    GRIDSQUARE: {stats['missing_after']['GRIDSQUARE']}")
-    print(f"    CONT: {stats['missing_after']['CONT']}")
+    print(f" QSOs loaded: {stats['original']}")
+    print(f" Filled from callsign reuse: {stats['filled_from_calls']}")
+    print(f" Filled from grid inference: {stats['filled_from_grid']}")
+    print(f" US state: {stats['filled_from_grid_us_state']}")
+    print(f" VE province: {stats['filled_from_grid_ve_prov']}")
+    print(f" Filled from QRZ lookup: {stats['filled_from_qrz']}")
+    print(f" STATE: {stats['filled_from_qrz_state']}")
+    print(f" VE_PROV: {stats['filled_from_qrz_ve_prov']}")
+    print(f" COUNTRY: {stats['filled_from_qrz_country']}")
+    print(f" GRIDSQUARE: {stats['filled_from_qrz_grid']}")
+    print(" QRZ details:")
+    print(f" Cache hits: {stats['qrz_cache_hits']}")
+    print(f" Queries attempted: {stats['qrz_queries_attempted']}")
+    print(f" Exact hits: {stats['qrz_exact_hits']}")
+    print(f" Stripped-call hits: {stats['qrz_stripped_hits']}")
+    print(f" Not found: {stats['qrz_not_found']}")
+    print(f" Login retries: {stats['qrz_login_retries']}")
+    print(" Scope:")
+    print(f" US QSOs: {stats['qso_scope']['US_QSOS']}")
+    print(f" Canada QSOs: {stats['qso_scope']['CANADA_QSOS']}")
+    print(" Missing after enrichment:")
+    print(f" STATE (US only): {stats['missing_after']['STATE_US_ONLY']}")
+    print(f" VE_PROV (Canada only): {stats['missing_after']['VE_PROV_CANADA_ONLY']}")
+    print(f" COUNTRY: {stats['missing_after']['COUNTRY']}")
+    print(f" GRIDSQUARE: {stats['missing_after']['GRIDSQUARE']}")
+    print(f" CONT: {stats['missing_after']['CONT']}")
 
     elapsed = time.time() - start_time
     minutes = int(elapsed // 60)
