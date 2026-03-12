@@ -44,7 +44,7 @@ def parse_args():
     parser.add_argument(
         "--overwrite",
         action="store_true",
-        help="Overwrite existing generated chart files",
+        help="Overwrite existing generated output files",
     )
 
     args = parser.parse_args()
