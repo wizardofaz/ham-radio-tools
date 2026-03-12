@@ -1,2 +1,5 @@
+__pycache__/
+*.pyc
+
 test.cmd 
 qrz_cache_test.json
