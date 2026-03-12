@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
 
-test.cmd 
-qrz_cache_test.json
+# ContestPostProcess test outputs
+testdata/output/*
+!testdata/output/.gitkeep

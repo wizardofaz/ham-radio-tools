@@ -98,6 +98,32 @@ This will produce the same charts and maps, but:
 
 ---
 
+## Smoke Test
+
+Sample test data is included under `testdata/`.
+
+The test fixture includes:
+
+- 'sample_log.adi'
+- a seeded 'qrz_cache.json'
+
+The seeded cache satisfies most lookups locally, but intentionally omits a small number of calls so a test run with '--qrz yes' also verifies live QRZ connectivity and cache updates. If you run the test twice with '--qrz yes' there should be a few qrz lookups the first time and none the second time. 
+A qrz.com account with xml privileges is required. If you don't have that, don't use '--qrz yes'. The consequence is some states or countries missing 
+from the log may not be reflected in the charts.  
+
+Generated files are written to `testdata/output/`, which is ignored by git.
+
+To run a repeatable local test from the `ContestPostProcess` directory:
+
+```text
+cd testdata
+test.cmd
+```
+
+This uses version-controlled sample input data from `testdata/input/` and writes generated outputs to `testdata/output/`.
+
+Generated files in `testdata/output/` are ignored by git.
+
 # Usage
 
 ```
