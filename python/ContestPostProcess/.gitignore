@@ -4,3 +4,5 @@ __pycache__/
 # ContestPostProcess test outputs
 testdata/output/*
 !testdata/output/.gitkeep
+
+README.md.save

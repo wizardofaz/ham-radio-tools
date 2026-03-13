@@ -2,87 +2,84 @@
 
 A Python utility for generating summary graphics and statistics from ADIF contest logs.
 
-The script produces:
+The tool parses ADIF logs, enriches missing geographic data when possible, and produces charts and maps suitable for post-event reports or activity summaries.
 
-- Band distribution pie chart
-- Continent distribution pie chart
-- Map of contacts (various styles)
-- Optional text summary for easy sharing
+It works well for both:
 
-It works well for both **DX-heavy contests** and **domestic-focused events** such as WAS activations.
+- DX-heavy contests
+- domestic-focused events such as WAS activations or special event stations
 
----
 
 ---
 
-## Overview
+# Overview
 
-`contest_summary` is a Python tool for generating summary statistics and graphics from ADIF contest logs.  
-It is designed for post-event reporting and analysis of multi-operator special event or contest logs.
+`contest_summary` analyzes ADIF logs and produces visual summaries of operating activity.
 
-The tool parses ADIF logs, enriches missing geographic data when possible, and produces a set of summary charts and maps that illustrate operating activity and results.
-
-Typical use cases include:
+Typical uses include:
 
 - post-event reports
 - club activity summaries
 - operator participation analysis
-- quick visual summaries for web or social media posts
+- quick graphics for websites or social media
+
+The tool is designed to handle **multi-operator logs**, including logs where multiple operators are active simultaneously.
 
 
 ---
 
-## Key Features
+# Key Features
 
-### Log Processing
+## Log Processing
 
 - Reads standard **ADIF** logs
-- Supports logs containing **multiple simultaneous operators**
-- Automatically separates interleaved QSOs by operator before analysis
+- Handles **interleaved QSOs from multiple operators**
+- Automatically separates operators before analysis
 
-### Data Enrichment
+## Data Enrichment
 
-Optional enrichment fills missing data where possible:
+Optional enrichment improves chart and map accuracy when ADIF fields are incomplete.
 
-- **Callsign reuse** from earlier QSOs in the log
-- **Grid inference**
-- **QRZ.com lookup** (with caching)
+Steps include:
+
+- **Callsign reuse** from other QSOs in the log
+- **Grid square inference**
+- **Optional QRZ.com lookup**
 - A second inference pass after QRZ enrichment
 
-### Session Analysis
+## Session Analysis
 
 Operating sessions are inferred from QSO timestamps.
 
-Sessions are split when either:
+Sessions are split when:
 
-- the time gap between QSOs exceeds the session threshold, or
+- the time gap between QSOs exceeds a threshold, or
 - the operator changes mode
 
-The session gap threshold defaults to **30 minutes** and can be adjusted via CLI or `config.json`.
+The session gap threshold defaults to **30 minutes**.
 
-Sessions shorter than half the threshold are credited with a minimum duration equal to **half the gap threshold**.
+Sessions shorter than half the threshold are credited with a minimum duration equal to **half the threshold**.
 
-This approach gives a reasonable estimate of operating time while avoiding zero-length sessions from isolated QSOs.
+This avoids zero-length sessions from isolated QSOs.
 
 
 ---
 
-## Generated Outputs
+# Generated Outputs
 
-The tool produces several charts and maps:
-
-### Charts
+## Charts
 
 | File | Description |
 |-----|-------------|
 | `band_distribution.png` | QSO distribution by band |
+| `mode_distribution.png` | QSO distribution by mode |
 | `continent_distribution.png` | QSO distribution by continent |
 | `operator_qso_distribution.png` | QSOs by operator (outer ring shows mode) |
 | `operator_time_distribution.png` | Operating time by operator (outer ring shows mode) |
 
-#### Operator Donut Charts
+### Operator Donut Charts
 
-Two nested donut charts are produced:
+Two nested donut charts are produced.
 
 **QSOs by Operator**
 
@@ -111,7 +108,7 @@ These paired charts highlight differences between:
 
 ---
 
-### Maps
+## Maps
 
 | File | Description |
 |-----|-------------|
@@ -122,7 +119,7 @@ Maps rely on grid and callsign information derived from the enrichment process.
 
 ---
 
-## Configuration
+# Configuration
 
 Optional configuration can be provided via `config.json` in the working directory.
 
@@ -152,83 +149,14 @@ built-in defaults
 
 ---
 
-## Running the Tool
-
-Two equivalent entry points are supported:
-
-```
-python run_contest_summary.py sample_log.adi
-```
-
-or
-
-```
-python -m contest_summary sample_log.adi
-```
-
-Output files are written to the configured output directory.
-
-
----
-
-## Smoke Test
-
-A small test dataset is included.
-
-```
-testdata/
-    input/
-        sample_log.adi
-        qrz_cache.json
-    output/
-```
-
-The test fixture includes:
-
-- 'sample_log.adi'
-- a seeded 'qrz_cache.json'
-
-The seeded cache satisfies most lookups locally, but intentionally omits a small number of calls so a test run with '--qrz yes' also verifies live QRZ connectivity and cache updates. If you run the test twice with '--qrz yes' there should be a few qrz lookups the first time and none the second time. 
-A qrz.com account with xml privileges is required. If you don't have that, don't use '--qrz yes'. The consequence is some states or countries missing 
-from the log may not be reflected in the charts.  
-
-After creating the needed Python environment, run the smoke test from the `ContestPostProcess` directory:
-
-```
-test.cmd
-```
-
-The test uses the included sample log and seeded QRZ cache to verify that:
-
-- log parsing works
-- enrichment runs
-- charts and maps generate correctly
-
-Generated files are written to `testdata/output/`, which is ignored by git.
-
-## Future Enhancements
-
-Planned or possible improvements include:
-
-- support for multiple ADIF input files
-- additional operator statistics (e.g., QSO rate)
-- configurable chart selection
-- expanded mode categorization via configuration
-
 # Quick Start
 
-Run the tool in just a few steps.
-
-## 1. Clone or download the project
+## 1. Clone the repository
 
 ```
-git clone <repo-url>
-cd contest-summary
+git clone https://github.com/wizardofaz/ham-radio-tools.git
+cd ham-radio-tools/python/ContestPostProcess
 ```
-
-or simply download the files and change into that directory.
-
----
 
 ## 2. Create a Python virtual environment
 
@@ -250,89 +178,68 @@ Linux / macOS:
 source venv/bin/activate
 ```
 
----
-
-## 3. Install required packages
+## 3. Install dependencies
 
 ```
 pip install -r requirements.txt
 ```
-
----
 
 ## 4. Run the tool
 
 Example:
 
 ```
-python contest_summary.py "K7RST 2026 ARRL DX PH.adi"
+python run_contest_summary.py "K7RST 2026 ARRL DX PH.adi"
 ```
 
-This will generate:
-
-- band distribution chart
-- continent distribution chart
-- contact map
-- summary text file
-
-All outputs will be written to the same directory as the ADIF file.
-
----
-
-## Example with options
+An alternative invocation using the package entry point is also supported:
 
 ```
-python contest_summary.py "W1AW_7_event.adi" \
-    --title "WAS50-AZ Event Summary" \
-    --map states_dx \
-    --qrz yes \
-    --outdir results
+python -m contest_summary "K7RST 2026 ARRL DX PH.adi"
 ```
 
-This will produce the same charts and maps, but:
+Outputs are written to the same directory as the ADIF file unless otherwise specified.
 
-- with a custom title
-- using the state/province map mode
-- performing QRZ lookups for missing information
-- writing output files into the `results` directory.
 
 ---
 
 # Usage
 
 ```
-python contest_summary.py LOGFILE.adi [options]
+python run_contest_summary.py LOGFILE.adi [options]
 ```
 
 Example:
 
 ```
-python contest_summary.py log.adi \
-    --title "WAS50-AZ Event Summary" \
-    --map states_dx \
-    --qrz yes \
-    --outdir results
+python run_contest_summary.py log.adi \
+  --title "WAS50-AZ Event Summary" \
+  --map states_dx \
+  --qrz yes \
+  --outdir results
 ```
+
 
 ---
 
 # Required Argument
 
-### `LOGFILE.adi`
+## LOGFILE.adi
 
 Path to the ADIF file to process.
 
 Example:
 
 ```
-python contest_summary.py "K7RST 2026 ARRL DX PH.adi"
+python run_contest_summary.py "K7RST 2026 ARRL DX PH.adi"
 ```
+
 
 ---
 
 # Optional Arguments
 
-## `--title`
+## --title
 
 Sets the title used on charts and maps.
 
@@ -346,16 +253,14 @@ Example:
 
 ---
 
-## `--map`
+## --map
 
 Selects the map style.
-
-Available modes:
 
 | Mode | Description |
 |-----|-------------|
 | `countries` | World map highlighting worked countries |
-| `states_dx` | World map showing US states, Canadian provinces, and non-NA DX countries |
+| `states_dx` | World map showing US states, Canadian provinces, and DX countries |
 | `na_states_dx` | North America–focused map highlighting states/provinces |
 
 Default:
@@ -364,21 +269,11 @@ Default:
 countries
 ```
 
-Examples:
-
-```
---map countries
---map states_dx
---map na_states_dx
-```
-
 ---
 
-## `--qrz`
+## --qrz
 
-Allows QRZ.com lookups to fill missing information.
-
-Lookup occurs **only if needed**, when the log lacks state/province/country/grid data.
+Allows QRZ.com lookups to fill missing location data.
 
 Values:
 
@@ -393,13 +288,7 @@ Default:
 no
 ```
 
-Example:
-
-```
---qrz yes
-```
-
-QRZ credentials are expected via environment variables:
+QRZ credentials must be provided via environment variables:
 
 ```
 QRZ_USERNAME
@@ -408,7 +297,7 @@ QRZ_PASSWORD
 
 ---
 
-## `--outdir`
+## --outdir
 
 Directory where generated files will be written.
 
@@ -422,7 +311,7 @@ Example:
 
 ---
 
-## `--include-lower48`
+## --include-lower48
 
 Controls whether the continental US is highlighted in `countries` map mode.
 
@@ -441,9 +330,9 @@ no
 
 ---
 
-## `--summary`
+## --summary
 
-Controls generation of a plain-text summary file.
+Controls generation of the plain-text summary file.
 
 Values:
 
@@ -458,164 +347,109 @@ Default:
 yes
 ```
 
-The summary file is useful for posting results to email or web pages.
-
 ---
 
-# Map Modes
+## --overwrite
 
-## `countries`
+Overwrite previously generated output files.
 
-World map showing:
+Applies to:
 
-- Worked countries
-- Non-worked countries shaded lightly
+- chart PNG files
+- map PNG files
+- summary text files
 
-Best suited for **DX contests**.
+Default behavior without `--overwrite`:
 
----
+- existing generated files are left in place
+- a warning is printed for each existing file
+- missing outputs are still generated
 
-## `states_dx`
+`qrz_cache.json` is not affected by `--overwrite`.
 
-Full world map showing:
+Example:
 
-- US states worked
-- Canadian provinces worked
-- Non-North-American DX countries
+```
+python run_contest_summary.py log.adi --overwrite
+```
 
-Best suited for events with both **domestic and DX contacts**, such as:
-
-- WAS activations
-- special event stations
-
----
-
-## `na_states_dx`
-
-North America-focused map showing:
-
-- US states worked
-- Canadian provinces worked
-
-DX outside North America may be summarized separately.
-
-Best suited for **domestic-focused events**.
 
 ---
 
 # Data Enrichment Pipeline
 
-To improve map accuracy, the script attempts to fill missing location information.
+To improve map accuracy, the tool fills missing location information in stages.
 
-Steps are applied in the following order:
+## 1. Use values already present in the ADIF log
 
-### 1. Use values already present in the ADIF log
+Fields used directly include:
 
-Fields used directly if available:
+- STATE
+- VE_PROV
+- COUNTRY
+- CONT
+- GRIDSQUARE
 
-- `STATE`
-- `VE_PROV`
-- `COUNTRY`
-- `CONT`
+## 2. Reuse information from other QSOs with the same callsign
 
----
+If another QSO for the same callsign contains location data, it may be reused.
 
-### 2. Reuse information from other QSOs with the same callsign
+## 3. Infer from grid square
 
-If a callsign appears multiple times and one entry contains state/province information, it will be reused for the others.
+Grid squares can often determine state or province.
 
-Example:
+## 4. Optional QRZ lookup
 
-```
-K1ABC  STATE=MA
-K1ABC  STATE missing
-```
-
-The second entry will inherit `MA`.
-
----
-
-### 3. Infer from grid square
-
-When available, grid squares can often determine state or province.
-
-Example:
-
-```
-FN42 → Massachusetts
-CN87 → Washington
-```
-
-This avoids unnecessary external lookups.
-
----
-
-### 4. Optional QRZ lookup
-
-If enabled, QRZ lookups may supply missing fields such as:
+If enabled, QRZ lookups may supply:
 
 - state
 - country
-- grid
+- grid square
 
-QRZ lookups occur **only when earlier steps fail**.
+Lookups are attempted only when earlier steps fail.
 
----
+A local cache (`qrz_cache.json`) prevents repeated lookups.
 
-# Output Files
-
-Generated files are written to the output directory.
-
-Example outputs:
-
-```
-log_band_distribution.png
-log_continent_distribution.png
-log_states_dx_map.png
-log_summary.txt
-```
-
-The map filename suffix reflects the selected map mode.
 
 ---
 
-# Example Commands
+# Smoke Test
 
-## DX Contest
-
-```
-python contest_summary.py "K7RST 2026 ARRL DX PH.adi" \
-    --title "K7RST ARRL DX SSB 2026" \
-    --map countries
-```
-
----
-
-## WAS Event
+A small test dataset is included.
 
 ```
-python contest_summary.py "W1AW_7_event.adi" \
-    --title "WAS50-AZ Event Summary" \
-    --map states_dx
+testdata/
+  input/
+    sample_log.adi
+    qrz_cache.json
+  output/
 ```
 
----
-
-## WAS Event with QRZ lookups and separate output folder
+Run the smoke test from the `ContestPostProcess` directory:
 
 ```
-python contest_summary.py "W1AW_7_event.adi" \
-    --title "WAS50-AZ Event Summary" \
-    --map states_dx \
-    --qrz yes \
-    --outdir results
+test.cmd
 ```
+
+The test verifies that:
+
+- log parsing works
+- enrichment runs
+- charts and maps generate correctly
+
+Generated files are written to `testdata/output/`, which is ignored by git.
+
+The included `qrz_cache.json` is pre-seeded so that:
+
+- most lookups are satisfied locally
+- a few calls require live QRZ queries when `--qrz yes` is used
+
 
 ---
 
 # Requirements
 
-Typical Python dependencies:
+Typical dependencies include:
 
 - matplotlib
 - pandas
@@ -633,7 +467,6 @@ Install with:
 pip install -r requirements.txt
 ```
 
-or via a conda environment if preferred.
 
 ---
 
@@ -641,11 +474,12 @@ or via a conda environment if preferred.
 
 Possible future additions include:
 
-- QSO rate graphs
-- operator contribution summaries
-- band vs continent matrices
-- DX spider maps
-- automated HTML reports
+- support for multiple ADIF input files
+- operator QSO rate analysis
+- additional charts and summary metrics
+- configurable chart selection
+- automated HTML report generation
+
 
 ---
 
