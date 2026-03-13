@@ -1,0 +1,8 @@
+{
+  "session_gap_minutes": 30,
+  "mode_categories": {
+    "CW": ["CW"],
+    "PH": ["SSB", "USB", "LSB", "FM", "AM"],
+    "DIG": ["FT8", "FT4", "MFSK", "RTTY"]
+  }
+}

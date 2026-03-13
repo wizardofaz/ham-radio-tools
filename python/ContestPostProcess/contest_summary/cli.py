@@ -47,6 +47,17 @@ def parse_args():
         help="Overwrite existing generated output files",
     )
 
+    parser.add_argument(
+    "--session-gap-minutes",
+    type=int,
+    help="Gap threshold (minutes) used to split operating sessions"
+    )
+
+    parser.add_argument(
+        "--config",
+        help="Path to configuration JSON file (default: ./config.json)"
+    )
+
     args = parser.parse_args()
     args.qrz = args.qrz == "yes"
     args.summary = args.summary == "yes"

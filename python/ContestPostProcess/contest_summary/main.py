@@ -1,13 +1,21 @@
 import time
 from pathlib import Path
 
+from .config import load_config, apply_cli_overrides
 from .cli import parse_args
 from .adif_utils import load_adif
 from .enrich import enrich_records
 from .charts import render_band_pie, render_continent_pie
 from .maps import render_map
 from .summary import write_summary
+from .operators import add_operator_column
+from .modes import normalize_mode_series
 
+from .charts import (
+    render_band_pie,
+    render_continent_pie,
+    render_operator_qso_donut,
+)
 
 def main():
     start_time = time.time()
@@ -20,6 +28,13 @@ def main():
     else:
         outdir = adif_path.parent
     outdir.mkdir(parents=True, exist_ok=True)
+    
+    config = load_config(args.config)
+    config = apply_cli_overrides(config, args)
+
+    gap_minutes = config["session_gap_minutes"]
+    min_session_minutes = gap_minutes / 2
+    mode_categories = config["mode_categories"]
 
     title = args.title if args.title else adif_path.stem
     qrz_cache_path = outdir / "qrz_cache.json"
@@ -34,9 +49,13 @@ def main():
         qrz_cache_path=qrz_cache_path,
     )
 
+    df = add_operator_column(df)
+    df["MODE_NORM"] = normalize_mode_series(df["MODE"], mode_categories)
+
     print("Generating charts...")
     render_band_pie(df, title, outdir, overwrite=args.overwrite)
     render_continent_pie(df, title, outdir, overwrite=args.overwrite)
+    render_operator_qso_donut(df, title, outdir, overwrite=args.overwrite)
 
     print("Generating map...")
     render_map(df, title, outdir, args, overwrite=args.overwrite)
