@@ -9,12 +9,14 @@ from .charts import render_band_pie, render_continent_pie
 from .maps import render_map
 from .summary import write_summary
 from .operators import add_operator_column
+from .sessions import build_sessions
 from .modes import normalize_mode_series
 
 from .charts import (
     render_band_pie,
     render_continent_pie,
     render_operator_qso_donut,
+    render_operator_time_donut,
 )
 
 def main():
@@ -51,11 +53,14 @@ def main():
 
     df = add_operator_column(df)
     df["MODE_NORM"] = normalize_mode_series(df["MODE"], mode_categories)
-
+    sessions_df = build_sessions(df, gap_minutes)
+    
+    
     print("Generating charts...")
     render_band_pie(df, title, outdir, overwrite=args.overwrite)
     render_continent_pie(df, title, outdir, overwrite=args.overwrite)
     render_operator_qso_donut(df, title, outdir, overwrite=args.overwrite)
+    render_operator_time_donut(sessions_df, title, outdir, overwrite=args.overwrite)
 
     print("Generating map...")
     render_map(df, title, outdir, args, overwrite=args.overwrite)
