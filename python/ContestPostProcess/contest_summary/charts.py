@@ -14,24 +14,46 @@ def render_band_pie(df, title, outdir, overwrite=False):
     plt.title(f"{title} — Band Distribution")
     plt.savefig(outfile)
     plt.close()
-import matplotlib.pyplot as plt
 
-from .output_control import should_write_output
-
-
-def render_band_pie(df, title, outdir, overwrite=False):
-    outfile = outdir / "band_distribution.png"
+def render_mode_pie(df, title, outdir, overwrite=False):
+    """
+    Pie chart showing QSO distribution by normalized mode category.
+    """
+    outfile = outdir / "mode_distribution.png"
     if not should_write_output(outfile, overwrite=overwrite):
         return
 
-    counts = df["BAND"].value_counts()
+    required = {"MODE_NORM"}
+    missing = required - set(df.columns)
+    if missing:
+        raise ValueError(
+            f"render_mode_pie requires columns: {sorted(required)}; "
+            f"missing {sorted(missing)}"
+        )
+
+    counts = df["MODE_NORM"].value_counts()
+
+    mode_colors = {
+        "CW": "#1f77b4",
+        "PH": "#ff7f0e",
+        "DIG": "#2ca02c",
+        "Other": "#7f7f7f",
+    }
+
+    colors = [mode_colors.get(m, "#7f7f7f") for m in counts.index]
+
     plt.figure()
-    counts.plot.pie(autopct="%1.1f%%")
-    plt.title(f"{title} — Band Distribution")
-    plt.savefig(outfile)
+    counts.plot.pie(
+        autopct="%1.1f%%",
+        colors=colors,
+    )
+
+    plt.title(f"{title} — Mode Distribution")
+    plt.ylabel("")
+
+    plt.savefig(outfile, dpi=300, bbox_inches="tight")
     plt.close()
-
-
+    
 def render_continent_pie(df, title, outdir, overwrite=False):
     outfile = outdir / "continent_distribution.png"
     if not should_write_output(outfile, overwrite=overwrite):
