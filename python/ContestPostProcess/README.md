@@ -15,6 +15,206 @@ It works well for both **DX-heavy contests** and **domestic-focused events** suc
 
 ---
 
+## Overview
+
+`contest_summary` is a Python tool for generating summary statistics and graphics from ADIF contest logs.  
+It is designed for post-event reporting and analysis of multi-operator special event or contest logs.
+
+The tool parses ADIF logs, enriches missing geographic data when possible, and produces a set of summary charts and maps that illustrate operating activity and results.
+
+Typical use cases include:
+
+- post-event reports
+- club activity summaries
+- operator participation analysis
+- quick visual summaries for web or social media posts
+
+
+---
+
+## Key Features
+
+### Log Processing
+
+- Reads standard **ADIF** logs
+- Supports logs containing **multiple simultaneous operators**
+- Automatically separates interleaved QSOs by operator before analysis
+
+### Data Enrichment
+
+Optional enrichment fills missing data where possible:
+
+- **Callsign reuse** from earlier QSOs in the log
+- **Grid inference**
+- **QRZ.com lookup** (with caching)
+- A second inference pass after QRZ enrichment
+
+### Session Analysis
+
+Operating sessions are inferred from QSO timestamps.
+
+Sessions are split when either:
+
+- the time gap between QSOs exceeds the session threshold, or
+- the operator changes mode
+
+The session gap threshold defaults to **30 minutes** and can be adjusted via CLI or `config.json`.
+
+Sessions shorter than half the threshold are credited with a minimum duration equal to **half the gap threshold**.
+
+This approach gives a reasonable estimate of operating time while avoiding zero-length sessions from isolated QSOs.
+
+
+---
+
+## Generated Outputs
+
+The tool produces several charts and maps:
+
+### Charts
+
+| File | Description |
+|-----|-------------|
+| `band_distribution.png` | QSO distribution by band |
+| `continent_distribution.png` | QSO distribution by continent |
+| `operator_qso_distribution.png` | QSOs by operator (outer ring shows mode) |
+| `operator_time_distribution.png` | Operating time by operator (outer ring shows mode) |
+
+#### Operator Donut Charts
+
+Two nested donut charts are produced:
+
+**QSOs by Operator**
+
+- inner ring: operator share of QSOs
+- outer ring: mode distribution for each operator
+
+**Operating Time by Operator**
+
+- inner ring: operator share of operating time
+- outer ring: mode distribution for each operator
+
+Mode colors are consistent across charts:
+
+| Mode | Color |
+|-----|------|
+| CW | blue |
+| PH | orange |
+| DIG | green |
+| Other | gray |
+
+These paired charts highlight differences between:
+
+- operators who spend the most time on the air
+- operators who achieve the highest QSO rates
+
+
+---
+
+### Maps
+
+| File | Description |
+|-----|-------------|
+| `states_dx_map.png` | Map of worked states and DX locations |
+
+Maps rely on grid and callsign information derived from the enrichment process.
+
+
+---
+
+## Configuration
+
+Optional configuration can be provided via `config.json` in the working directory.
+
+Example:
+
+```json
+{
+  "session_gap_minutes": 30,
+  "mode_categories": {
+    "CW": ["CW"],
+    "PH": ["SSB", "USB", "LSB", "FM", "AM"],
+    "DIG": ["FT8", "FT4", "MFSK", "RTTY"]
+  }
+}
+```
+
+Configuration precedence:
+
+```
+CLI options
+    override
+config.json
+    override
+built-in defaults
+```
+
+
+---
+
+## Running the Tool
+
+Two equivalent entry points are supported:
+
+```
+python run_contest_summary.py sample_log.adi
+```
+
+or
+
+```
+python -m contest_summary sample_log.adi
+```
+
+Output files are written to the configured output directory.
+
+
+---
+
+## Smoke Test
+
+A small test dataset is included.
+
+```
+testdata/
+    input/
+        sample_log.adi
+        qrz_cache.json
+    output/
+```
+
+The test fixture includes:
+
+- 'sample_log.adi'
+- a seeded 'qrz_cache.json'
+
+The seeded cache satisfies most lookups locally, but intentionally omits a small number of calls so a test run with '--qrz yes' also verifies live QRZ connectivity and cache updates. If you run the test twice with '--qrz yes' there should be a few qrz lookups the first time and none the second time. 
+A qrz.com account with xml privileges is required. If you don't have that, don't use '--qrz yes'. The consequence is some states or countries missing 
+from the log may not be reflected in the charts.  
+
+After creating the needed Python environment, run the smoke test from the `ContestPostProcess` directory:
+
+```
+test.cmd
+```
+
+The test uses the included sample log and seeded QRZ cache to verify that:
+
+- log parsing works
+- enrichment runs
+- charts and maps generate correctly
+
+Generated files are written to `testdata/output/`, which is ignored by git.
+
+## Future Enhancements
+
+Planned or possible improvements include:
+
+- support for multiple ADIF input files
+- additional operator statistics (e.g., QSO rate)
+- configurable chart selection
+- expanded mode categorization via configuration
+
 # Quick Start
 
 Run the tool in just a few steps.
@@ -97,32 +297,6 @@ This will produce the same charts and maps, but:
 - writing output files into the `results` directory.
 
 ---
-
-## Smoke Test
-
-Sample test data is included under `testdata/`.
-
-The test fixture includes:
-
-- 'sample_log.adi'
-- a seeded 'qrz_cache.json'
-
-The seeded cache satisfies most lookups locally, but intentionally omits a small number of calls so a test run with '--qrz yes' also verifies live QRZ connectivity and cache updates. If you run the test twice with '--qrz yes' there should be a few qrz lookups the first time and none the second time. 
-A qrz.com account with xml privileges is required. If you don't have that, don't use '--qrz yes'. The consequence is some states or countries missing 
-from the log may not be reflected in the charts.  
-
-Generated files are written to `testdata/output/`, which is ignored by git.
-
-To run a repeatable local test from the `ContestPostProcess` directory:
-
-```text
-cd testdata
-test.cmd
-```
-
-This uses version-controlled sample input data from `testdata/input/` and writes generated outputs to `testdata/output/`.
-
-Generated files in `testdata/output/` are ignored by git.
 
 # Usage
 
