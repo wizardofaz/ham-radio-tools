@@ -9,6 +9,14 @@ def render_band_pie(df, title, outdir, overwrite=False):
         return
 
     counts = df["BAND"].value_counts()
+
+    band_order = [
+        "160m","80m","60m","40m","30m","20m","17m",
+        "15m","12m","10m","6m","2m","70cm"
+    ]
+
+    counts = counts.reindex(band_order).dropna()
+
     plt.figure()
     counts.plot.pie(autopct="%1.1f%%")
     plt.title(f"{title} — Band Distribution")
@@ -32,6 +40,9 @@ def render_mode_pie(df, title, outdir, overwrite=False):
         )
 
     counts = df["MODE_NORM"].value_counts()
+
+    mode_order = ["CW", "PH", "DIG", "Other"]
+    counts = counts.reindex(mode_order).dropna()
 
     mode_colors = {
         "CW": "#1f77b4",
