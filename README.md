@@ -4,6 +4,8 @@ This repository contains small utilities for amateur radio logging, ADIF process
 
 Most tools are simple standalone scripts intended to be easy to run, modify, and reuse in other ham-radio workflows.
 
+The emphasis is on **practical tools that solve real operating problems** rather than large frameworks.
+
 ---
 
 # Quick Start
@@ -27,7 +29,11 @@ Run the script with Python:
 python split_adif_by_operator.py input_log.adif
 ```
 
-Most tools accept command-line arguments and print help if run with `-h`.
+Most tools accept command-line arguments and will print usage help when run with:
+
+```bash
+-h
+```
 
 ---
 
@@ -61,23 +67,48 @@ The script produces one ADIF file per operator.
 
 ### Contest Post-Processing
 
-Utilities for analyzing or summarizing contest and special-event logs.
+Utilities for analyzing contest or special-event logs after operating is complete.
 
-#### `contest_summary.py`
+Location:
 
-Generates summary statistics from an ADIF log file for contest or event analysis.
+```
+python/ContestPostProcess
+```
 
-Typical outputs may include:
+The primary tool is **contest_summary**, which generates charts, maps, and statistics from an ADIF log.
 
-- QSO counts
-- band/mode breakdowns
-- geographic distribution of contacts
-- statistics useful for post-event reports
+Typical outputs include:
+
+- band distribution charts
+- mode distribution charts
+- continent distribution charts
+- operator participation charts
+- estimated operator airtime (session analysis)
+- geographic contact maps
+
+These outputs are intended for:
+
+- contest summaries
+- club reports
+- special event documentation
+- operator participation analysis
 
 Example usage:
 
 ```bash
-python contest_summary.py event_log.adif
+python run_contest_summary.py event_log.adi
+```
+
+or
+
+```bash
+python -m contest_summary event_log.adi
+```
+
+See the full documentation here:
+
+```
+python/ContestPostProcess/README.md
 ```
 
 ---
@@ -88,10 +119,13 @@ python contest_summary.py event_log.adif
 ham-radio-tools
 ├─ python/
 │  ├─ ADIF_tools/
+│  │   └─ utilities for manipulating ADIF logs
+│  │
 │  └─ ContestPostProcess/
+│      └─ contest and event analysis tools
 ```
 
-Additional tools (including web-based utilities) may be added over time.
+Additional tools may be added over time.
 
 ---
 
@@ -101,5 +135,13 @@ This repository focuses on:
 
 - practical ham-radio utilities
 - tools for ADIF log processing
-- scripts that are easy to understand and adapt
-- sharing useful post-processing tools with the amateur radio community
+- scripts that are easy to understand and modify
+- sharing useful tools with the amateur radio community
+
+Many tools begin as personal utilities and evolve into reusable scripts.
+
+---
+
+# License
+
+Open source. Feel free to use, modify, and share these tools within the amateur radio community.
