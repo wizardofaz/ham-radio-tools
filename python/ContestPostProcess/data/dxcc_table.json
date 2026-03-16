@@ -1,0 +1,2002 @@
+{
+  "0": {
+    "cc": null,
+    "continent": "",
+    "name": "NON-DXCC"
+  },
+  "1": {
+    "cc": "CA",
+    "continent": "NA",
+    "name": "Canada"
+  },
+  "10": {
+    "cc": "FR",
+    "continent": "AF",
+    "name": "Amsterdam and St Paul Islands"
+  },
+  "100": {
+    "cc": "AR",
+    "continent": "SA",
+    "name": "Argentina"
+  },
+  "101": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Goa"
+  },
+  "102": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Gold Coast, Togoland"
+  },
+  "103": {
+    "cc": "GU",
+    "continent": "OC",
+    "name": "Guam"
+  },
+  "104": {
+    "cc": "BO",
+    "continent": "SA",
+    "name": "Bolivia"
+  },
+  "105": {
+    "cc": "US",
+    "continent": "NA",
+    "name": "Guantanamo Bay"
+  },
+  "106": {
+    "cc": "GG",
+    "continent": "EU",
+    "name": "Guernsey"
+  },
+  "107": {
+    "cc": "GN",
+    "continent": "AF",
+    "name": "Guinea"
+  },
+  "108": {
+    "cc": "BR",
+    "continent": "SA",
+    "name": "Brazil"
+  },
+  "109": {
+    "cc": "GW",
+    "continent": "AF",
+    "name": "Guinea-Bissau"
+  },
+  "11": {
+    "cc": "IN",
+    "continent": "AS",
+    "name": "Andaman and Nicobar Islands"
+  },
+  "110": {
+    "cc": "US",
+    "continent": "OC",
+    "name": "Hawaii"
+  },
+  "111": {
+    "cc": "HM",
+    "continent": "AF",
+    "name": "Heard Islands"
+  },
+  "112": {
+    "cc": "CL",
+    "continent": "SA",
+    "name": "Chile"
+  },
+  "113": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Ifni"
+  },
+  "114": {
+    "cc": "IM",
+    "continent": "EU",
+    "name": "Isle of Man"
+  },
+  "115": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Italian Somaliland"
+  },
+  "116": {
+    "cc": "CO",
+    "continent": "SA",
+    "name": "Colombia"
+  },
+  "117": {
+    "cc": "CH",
+    "continent": "EU",
+    "name": "ITU HQ"
+  },
+  "118": {
+    "cc": "SJ",
+    "continent": "EU",
+    "name": "Jan Mayen Island"
+  },
+  "119": {
+    "cc": null,
+    "continent": "OC",
+    "name": "Java"
+  },
+  "12": {
+    "cc": "AI",
+    "continent": "NA",
+    "name": "Anguilla"
+  },
+  "120": {
+    "cc": "EC",
+    "continent": "SA",
+    "name": "Ecuador"
+  },
+  "122": {
+    "cc": "JE",
+    "continent": "EU",
+    "name": "Jersey"
+  },
+  "123": {
+    "cc": "US",
+    "continent": "OC",
+    "name": "Johnston Island"
+  },
+  "124": {
+    "cc": "FR",
+    "continent": "AF",
+    "name": "Juan de Nova Island"
+  },
+  "125": {
+    "cc": "CL",
+    "continent": "SA",
+    "name": "Juan Fernandez Islands"
+  },
+  "126": {
+    "cc": "RU",
+    "continent": "EU",
+    "name": "Kaliningrad"
+  },
+  "127": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Kamaran Is."
+  },
+  "129": {
+    "cc": "GY",
+    "continent": "SA",
+    "name": "Guyana"
+  },
+  "13": {
+    "cc": "AQ",
+    "continent": "AN",
+    "name": "Antarctica"
+  },
+  "130": {
+    "cc": "KZ",
+    "continent": "AS",
+    "name": "Kazakhstan"
+  },
+  "131": {
+    "cc": "FR",
+    "continent": "AF",
+    "name": "Kerguelen Islands"
+  },
+  "132": {
+    "cc": "PY",
+    "continent": "SA",
+    "name": "Paraguay"
+  },
+  "133": {
+    "cc": "NZ",
+    "continent": "OC",
+    "name": "Kermadec Islands"
+  },
+  "134": {
+    "cc": "US",
+    "continent": "OC",
+    "name": "Kingman Reef"
+  },
+  "135": {
+    "cc": "KG",
+    "continent": "AS",
+    "name": "Kyrgyzstan"
+  },
+  "136": {
+    "cc": "PE",
+    "continent": "SA",
+    "name": "Peru"
+  },
+  "137": {
+    "cc": "KR",
+    "continent": "AS",
+    "name": "South Korea"
+  },
+  "1378": {
+    "cc": "SA",
+    "continent": "AS",
+    "name": "Saudi Arabia/Iraq Neutral Zone"
+  },
+  "138": {
+    "cc": "US",
+    "continent": "OC",
+    "name": "Kure Atoll"
+  },
+  "14": {
+    "cc": "AM",
+    "continent": "AS",
+    "name": "Armenia"
+  },
+  "140": {
+    "cc": "SR",
+    "continent": "SA",
+    "name": "Suriname"
+  },
+  "141": {
+    "cc": "FK",
+    "continent": "SA",
+    "name": "Falkland Islands"
+  },
+  "142": {
+    "cc": "IN",
+    "continent": "AS",
+    "name": "Lakshadweep Islands"
+  },
+  "143": {
+    "cc": "LA",
+    "continent": "AS",
+    "name": "Laos"
+  },
+  "144": {
+    "cc": "UY",
+    "continent": "SA",
+    "name": "Uruguay"
+  },
+  "145": {
+    "cc": "LV",
+    "continent": "EU",
+    "name": "Latvia"
+  },
+  "146": {
+    "cc": "LT",
+    "continent": "EU",
+    "name": "Lithuania"
+  },
+  "147": {
+    "cc": "AU",
+    "continent": "OC",
+    "name": "Lord Howe Island"
+  },
+  "148": {
+    "cc": "VE",
+    "continent": "SA",
+    "name": "Venezuela"
+  },
+  "149": {
+    "cc": "PT",
+    "continent": "EU",
+    "name": "Azores"
+  },
+  "15": {
+    "cc": "RU",
+    "continent": "AS",
+    "name": "Asiatic Russia"
+  },
+  "150": {
+    "cc": "AU",
+    "continent": "OC",
+    "name": "Australia"
+  },
+  "1502": {
+    "cc": null,
+    "continent": "EU",
+    "name": "Republic of Kosovo (NON-DXCC, Deleted)"
+  },
+  "151": {
+    "cc": "RU",
+    "continent": "EU",
+    "name": "Maly Vysotsky Island"
+  },
+  "152": {
+    "cc": "MO",
+    "continent": "AS",
+    "name": "Macau"
+  },
+  "153": {
+    "cc": "AU",
+    "continent": "OC",
+    "name": "Macquarie Island"
+  },
+  "154": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Yemen Arab Rep."
+  },
+  "155": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Malaya"
+  },
+  "157": {
+    "cc": "NR",
+    "continent": "OC",
+    "name": "Nauru"
+  },
+  "158": {
+    "cc": "VU",
+    "continent": "OC",
+    "name": "Vanuatu"
+  },
+  "159": {
+    "cc": "MV",
+    "continent": "AS",
+    "name": "Maldives"
+  },
+  "16": {
+    "cc": "NZ",
+    "continent": "OC",
+    "name": "New Zealand Subantarctic Islands"
+  },
+  "160": {
+    "cc": "TO",
+    "continent": "OC",
+    "name": "Tonga"
+  },
+  "161": {
+    "cc": "CO",
+    "continent": "SA",
+    "name": "Malpelo Island"
+  },
+  "162": {
+    "cc": "NC",
+    "continent": "OC",
+    "name": "New Caledonia"
+  },
+  "163": {
+    "cc": "PG",
+    "continent": "OC",
+    "name": "Papua New Guinea"
+  },
+  "164": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Manchuria"
+  },
+  "165": {
+    "cc": "MU",
+    "continent": "AF",
+    "name": "Mauritius"
+  },
+  "166": {
+    "cc": "US",
+    "continent": "OC",
+    "name": "Mariana Islands"
+  },
+  "167": {
+    "cc": "SE",
+    "continent": "EU",
+    "name": "Market Reef"
+  },
+  "168": {
+    "cc": "MH",
+    "continent": "OC",
+    "name": "Marshall Islands"
+  },
+  "169": {
+    "cc": "YT",
+    "continent": "AF",
+    "name": "Mayotte"
+  },
+  "17": {
+    "cc": "VE",
+    "continent": "NA",
+    "name": "Aves Island"
+  },
+  "170": {
+    "cc": "NZ",
+    "continent": "OC",
+    "name": "New Zealand"
+  },
+  "171": {
+    "cc": "AU",
+    "continent": "OC",
+    "name": "Mellish Reef"
+  },
+  "172": {
+    "cc": "PN",
+    "continent": "OC",
+    "name": "Pitcairn Islands"
+  },
+  "173": {
+    "cc": "FM",
+    "continent": "OC",
+    "name": "Micronesia"
+  },
+  "174": {
+    "cc": "US",
+    "continent": "OC",
+    "name": "Midway Islands"
+  },
+  "175": {
+    "cc": "PF",
+    "continent": "OC",
+    "name": "French Polynesia"
+  },
+  "176": {
+    "cc": "FJ",
+    "continent": "OC",
+    "name": "Fiji"
+  },
+  "177": {
+    "cc": "JP",
+    "continent": "OC",
+    "name": "Minami Torishima"
+  },
+  "178": {
+    "cc": null,
+    "continent": "OC",
+    "name": "Minerva Reef"
+  },
+  "179": {
+    "cc": "MD",
+    "continent": "EU",
+    "name": "Moldova"
+  },
+  "18": {
+    "cc": "AZ",
+    "continent": "AS",
+    "name": "Azerbaijan"
+  },
+  "180": {
+    "cc": "GR",
+    "continent": "EU",
+    "name": "Mt Athos"
+  },
+  "181": {
+    "cc": "MZ",
+    "continent": "AF",
+    "name": "Mozambique"
+  },
+  "182": {
+    "cc": "US",
+    "continent": "NA",
+    "name": "Navassa Island"
+  },
+  "183": {
+    "cc": null,
+    "continent": "OC",
+    "name": "Netherlands Borneo"
+  },
+  "184": {
+    "cc": null,
+    "continent": "OC",
+    "name": "Netherlands New Guinea"
+  },
+  "185": {
+    "cc": "SB",
+    "continent": "OC",
+    "name": "Solomon Islands"
+  },
+  "186": {
+    "cc": null,
+    "continent": "NA",
+    "name": "Newfoundland, Labrador"
+  },
+  "187": {
+    "cc": "NE",
+    "continent": "AF",
+    "name": "Niger"
+  },
+  "188": {
+    "cc": "NU",
+    "continent": "OC",
+    "name": "Niue"
+  },
+  "189": {
+    "cc": "NF",
+    "continent": "OC",
+    "name": "Norfolk Island"
+  },
+  "19": {
+    "cc": null,
+    "continent": "NA",
+    "name": "Bajo Neuvo"
+  },
+  "190": {
+    "cc": "WS",
+    "continent": "OC",
+    "name": "Samoa"
+  },
+  "191": {
+    "cc": "NZ",
+    "continent": "OC",
+    "name": "North Cook Islands"
+  },
+  "192": {
+    "cc": "JP",
+    "continent": "AS",
+    "name": "Ogasawara"
+  },
+  "193": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Okinawa (Ryukyu Is.)"
+  },
+  "194": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Okino Tori-shima"
+  },
+  "195": {
+    "cc": "GQ",
+    "continent": "AF",
+    "name": "Annobon Island"
+  },
+  "196": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Palestine"
+  },
+  "197": {
+    "cc": "US",
+    "continent": "OC",
+    "name": "Palmyra, Jarvis Island"
+  },
+  "198": {
+    "cc": null,
+    "continent": "OC",
+    "name": "Papua Territory"
+  },
+  "199": {
+    "cc": "NO",
+    "continent": "AN",
+    "name": "Peter I Island"
+  },
+  "2": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Abu Ail Island"
+  },
+  "20": {
+    "cc": "US",
+    "continent": "OC",
+    "name": "Baker and Howland Islands"
+  },
+  "200": {
+    "cc": null,
+    "continent": "OC",
+    "name": "Portuguese Timor"
+  },
+  "201": {
+    "cc": "ZA",
+    "continent": "AF",
+    "name": "Prince Edward and Marion Island"
+  },
+  "202": {
+    "cc": "PR",
+    "continent": "NA",
+    "name": "Puerto Rico"
+  },
+  "203": {
+    "cc": "AD",
+    "continent": "EU",
+    "name": "Andorra"
+  },
+  "204": {
+    "cc": "MX",
+    "continent": "NA",
+    "name": "Revillagigedo Islands"
+  },
+  "205": {
+    "cc": "UK",
+    "continent": "AF",
+    "name": "Ascension Island"
+  },
+  "206": {
+    "cc": "AT",
+    "continent": "EU",
+    "name": "Austria"
+  },
+  "207": {
+    "cc": "MU",
+    "continent": "AF",
+    "name": "Rodriguez Island"
+  },
+  "208": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Ruanda-Urundi"
+  },
+  "209": {
+    "cc": "BE",
+    "continent": "EU",
+    "name": "Belgium"
+  },
+  "21": {
+    "cc": "ES",
+    "continent": "EU",
+    "name": "Balearic Islands"
+  },
+  "210": {
+    "cc": null,
+    "continent": "EU",
+    "name": "Saar"
+  },
+  "211": {
+    "cc": "CA",
+    "continent": "NA",
+    "name": "Sable Island"
+  },
+  "212": {
+    "cc": "BG",
+    "continent": "EU",
+    "name": "Bulgaria"
+  },
+  "213": {
+    "cc": "FR",
+    "continent": "NA",
+    "name": "St Martin"
+  },
+  "214": {
+    "cc": "FR",
+    "continent": "EU",
+    "name": "Corsica"
+  },
+  "215": {
+    "cc": "CY",
+    "continent": "AS",
+    "name": "Cyprus"
+  },
+  "216": {
+    "cc": "NI",
+    "continent": "NA",
+    "name": "San Andres and Providencia"
+  },
+  "217": {
+    "cc": "CL",
+    "continent": "SA",
+    "name": "San Felix"
+  },
+  "218": {
+    "cc": null,
+    "continent": "EU",
+    "name": "Czechoslovakia"
+  },
+  "219": {
+    "cc": "ST",
+    "continent": "AF",
+    "name": "Sao Tome & Principe"
+  },
+  "22": {
+    "cc": "PW",
+    "continent": "OC",
+    "name": "Palau"
+  },
+  "221": {
+    "cc": "DK",
+    "continent": "EU",
+    "name": "Denmark"
+  },
+  "222": {
+    "cc": "FO",
+    "continent": "EU",
+    "name": "Faroe Islands"
+  },
+  "223": {
+    "cc": "GB",
+    "continent": "EU",
+    "name": "England"
+  },
+  "224": {
+    "cc": "FI",
+    "continent": "EU",
+    "name": "Finland"
+  },
+  "225": {
+    "cc": "IT",
+    "continent": "EU",
+    "name": "Sardinia"
+  },
+  "226": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Saudi Arabia/Iraq Neutral Zone"
+  },
+  "227": {
+    "cc": "FR",
+    "continent": "EU",
+    "name": "France"
+  },
+  "228": {
+    "cc": null,
+    "continent": "NA",
+    "name": "Serrana Bank & Roncador Cay"
+  },
+  "229": {
+    "cc": null,
+    "continent": "EU",
+    "name": "German Democratic Republic"
+  },
+  "23": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Blenheim Reef"
+  },
+  "230": {
+    "cc": "DE",
+    "continent": "EU",
+    "name": "Germany"
+  },
+  "231": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Sikkim"
+  },
+  "232": {
+    "cc": "SO",
+    "continent": "AF",
+    "name": "Somalia"
+  },
+  "233": {
+    "cc": "GI",
+    "continent": "EU",
+    "name": "Gibraltar"
+  },
+  "234": {
+    "cc": "GS",
+    "continent": "OC",
+    "name": "South Cook Islands"
+  },
+  "235": {
+    "cc": "GS",
+    "continent": "SA",
+    "name": "South Georgia Islands"
+  },
+  "236": {
+    "cc": "GR",
+    "continent": "EU",
+    "name": "Greece"
+  },
+  "237": {
+    "cc": "GL",
+    "continent": "NA",
+    "name": "Greenland"
+  },
+  "238": {
+    "cc": "GB",
+    "continent": "SA",
+    "name": "South Orkney Islands"
+  },
+  "239": {
+    "cc": "HU",
+    "continent": "EU",
+    "name": "Hungary"
+  },
+  "24": {
+    "cc": "BV",
+    "continent": "AF",
+    "name": "Bouvet Island"
+  },
+  "240": {
+    "cc": "GS",
+    "continent": "SA",
+    "name": "South Sandwich Islands"
+  },
+  "241": {
+    "cc": "GB",
+    "continent": "SA",
+    "name": "South Shetland Islands"
+  },
+  "242": {
+    "cc": "IS",
+    "continent": "EU",
+    "name": "Iceland"
+  },
+  "243": {
+    "cc": null,
+    "continent": "AS",
+    "name": "People's Democratic Rep. of Yemen"
+  },
+  "244": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Southern Sudan"
+  },
+  "245": {
+    "cc": "IE",
+    "continent": "EU",
+    "name": "Ireland"
+  },
+  "246": {
+    "cc": "MT",
+    "continent": "EU",
+    "name": "SMO Malta"
+  },
+  "247": {
+    "cc": "PH",
+    "continent": "AS",
+    "name": "Spratly Islands"
+  },
+  "248": {
+    "cc": "IT",
+    "continent": "EU",
+    "name": "Italy"
+  },
+  "249": {
+    "cc": "KN",
+    "continent": "NA",
+    "name": "St Kitts and Nevis"
+  },
+  "25": {
+    "cc": null,
+    "continent": "OC",
+    "name": "British North Borneo"
+  },
+  "250": {
+    "cc": "SH",
+    "continent": "AF",
+    "name": "St Helena Island"
+  },
+  "251": {
+    "cc": "LI",
+    "continent": "EU",
+    "name": "Liechtenstein"
+  },
+  "252": {
+    "cc": "CA",
+    "continent": "NA",
+    "name": "St Paul Island"
+  },
+  "253": {
+    "cc": "BR",
+    "continent": "SA",
+    "name": "St Peter & St Paul Rocks"
+  },
+  "254": {
+    "cc": "LU",
+    "continent": "EU",
+    "name": "Luxembourg"
+  },
+  "255": {
+    "cc": null,
+    "continent": "NA",
+    "name": "St. Maarten, Saba, St. Eustatius"
+  },
+  "256": {
+    "cc": "PT",
+    "continent": "AF",
+    "name": "Madeira Island"
+  },
+  "257": {
+    "cc": "MT",
+    "continent": "EU",
+    "name": "Malta"
+  },
+  "258": {
+    "cc": null,
+    "continent": "OC",
+    "name": "Sumatra"
+  },
+  "259": {
+    "cc": "SJ",
+    "continent": "EU",
+    "name": "Svalbard"
+  },
+  "26": {
+    "cc": null,
+    "continent": "AF",
+    "name": "British Somaliland"
+  },
+  "260": {
+    "cc": "MC",
+    "continent": "EU",
+    "name": "Monaco"
+  },
+  "261": {
+    "cc": null,
+    "continent": "NA",
+    "name": "Swan Is."
+  },
+  "262": {
+    "cc": "TJ",
+    "continent": "AS",
+    "name": "Tajikistan"
+  },
+  "263": {
+    "cc": "NL",
+    "continent": "EU",
+    "name": "Netherlands"
+  },
+  "264": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Tangier"
+  },
+  "265": {
+    "cc": "GB",
+    "continent": "EU",
+    "name": "Northern Ireland"
+  },
+  "266": {
+    "cc": "NO",
+    "continent": "EU",
+    "name": "Norway"
+  },
+  "267": {
+    "cc": null,
+    "continent": "OC",
+    "name": "Territory of New Guinea"
+  },
+  "268": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Tibet"
+  },
+  "269": {
+    "cc": "PL",
+    "continent": "EU",
+    "name": "Poland"
+  },
+  "27": {
+    "cc": "BY",
+    "continent": "EU",
+    "name": "Belarus"
+  },
+  "270": {
+    "cc": "TK",
+    "continent": "OC",
+    "name": "Tokelau Islands"
+  },
+  "271": {
+    "cc": null,
+    "continent": "EU",
+    "name": "Trieste"
+  },
+  "272": {
+    "cc": "PT",
+    "continent": "EU",
+    "name": "Portugal"
+  },
+  "273": {
+    "cc": "BR",
+    "continent": "SA",
+    "name": "Trindade and Martim Vaz Island"
+  },
+  "274": {
+    "cc": "GB",
+    "continent": "AF",
+    "name": "Tristan da Cunha and Gough Island"
+  },
+  "275": {
+    "cc": "RO",
+    "continent": "EU",
+    "name": "Romania"
+  },
+  "276": {
+    "cc": "FR",
+    "continent": "AF",
+    "name": "Tromelin Island"
+  },
+  "277": {
+    "cc": "CA",
+    "continent": "NA",
+    "name": "St Pierre & Miquelon"
+  },
+  "278": {
+    "cc": "SM",
+    "continent": "EU",
+    "name": "San Marino"
+  },
+  "279": {
+    "cc": "GB",
+    "continent": "EU",
+    "name": "Scotland"
+  },
+  "28": {
+    "cc": null,
+    "continent": "NA",
+    "name": "Canal Zone"
+  },
+  "280": {
+    "cc": "TM",
+    "continent": "AS",
+    "name": "Turkmenistan"
+  },
+  "281": {
+    "cc": "ES",
+    "continent": "EU",
+    "name": "Spain"
+  },
+  "282": {
+    "cc": "TV",
+    "continent": "OC",
+    "name": "Tuvalu"
+  },
+  "283": {
+    "cc": "CY",
+    "continent": "AS",
+    "name": "Cyprus SBA"
+  },
+  "284": {
+    "cc": "SE",
+    "continent": "EU",
+    "name": "Sweden"
+  },
+  "285": {
+    "cc": "VI",
+    "continent": "NA",
+    "name": "US Virgin Islands"
+  },
+  "286": {
+    "cc": "UG",
+    "continent": "AF",
+    "name": "Uganda"
+  },
+  "287": {
+    "cc": "CH",
+    "continent": "EU",
+    "name": "Switzerland"
+  },
+  "288": {
+    "cc": "UA",
+    "continent": "EU",
+    "name": "Ukraine"
+  },
+  "289": {
+    "cc": "UN",
+    "continent": "NA",
+    "name": "United Nations HQ"
+  },
+  "29": {
+    "cc": "ES",
+    "continent": "AF",
+    "name": "Canary Islands"
+  },
+  "291": {
+    "cc": "US",
+    "continent": "NA",
+    "name": "United States"
+  },
+  "292": {
+    "cc": "UZ",
+    "continent": "AS",
+    "name": "Uzbekistan"
+  },
+  "293": {
+    "cc": "VN",
+    "continent": "AS",
+    "name": "Vietnam"
+  },
+  "294": {
+    "cc": "GB",
+    "continent": "EU",
+    "name": "Wales"
+  },
+  "295": {
+    "cc": "VA",
+    "continent": "EU",
+    "name": "Vatican"
+  },
+  "296": {
+    "cc": "RS",
+    "continent": "EU",
+    "name": "Serbia"
+  },
+  "297": {
+    "cc": "US",
+    "continent": "OC",
+    "name": "Wake Island"
+  },
+  "298": {
+    "cc": "WF",
+    "continent": "OC",
+    "name": "Wallis and Futuna Islands"
+  },
+  "299": {
+    "cc": "MY",
+    "continent": "AS",
+    "name": "West Malaysia"
+  },
+  "3": {
+    "cc": "AF",
+    "continent": "AS",
+    "name": "Afghanistan"
+  },
+  "30": {
+    "cc": null,
+    "continent": "OC",
+    "name": "Celebe & Molucca Is."
+  },
+  "301": {
+    "cc": "KI",
+    "continent": "OC",
+    "name": "Kiribati"
+  },
+  "302": {
+    "cc": "EH",
+    "continent": "AF",
+    "name": "Western Sahara"
+  },
+  "303": {
+    "cc": "AU",
+    "continent": "OC",
+    "name": "Willis Island"
+  },
+  "304": {
+    "cc": "BH",
+    "continent": "AS",
+    "name": "Bahrain"
+  },
+  "305": {
+    "cc": "BD",
+    "continent": "AS",
+    "name": "Bangladesh"
+  },
+  "306": {
+    "cc": "BT",
+    "continent": "AS",
+    "name": "Bhutan"
+  },
+  "307": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Zanzibar"
+  },
+  "308": {
+    "cc": "CR",
+    "continent": "NA",
+    "name": "Costa Rica"
+  },
+  "309": {
+    "cc": "MM",
+    "continent": "AS",
+    "name": "Myanmar (Burma)"
+  },
+  "31": {
+    "cc": "KI",
+    "continent": "OC",
+    "name": "Central Kiribati"
+  },
+  "312": {
+    "cc": "KH",
+    "continent": "AS",
+    "name": "Cambodia"
+  },
+  "315": {
+    "cc": "LK",
+    "continent": "AS",
+    "name": "Sri Lanka"
+  },
+  "318": {
+    "cc": "CN",
+    "continent": "AS",
+    "name": "China"
+  },
+  "32": {
+    "cc": "ES",
+    "continent": "AF",
+    "name": "Ceuta and Melilla"
+  },
+  "321": {
+    "cc": "HK",
+    "continent": "AS",
+    "name": "Hong Kong"
+  },
+  "324": {
+    "cc": "IN",
+    "continent": "AS",
+    "name": "India"
+  },
+  "327": {
+    "cc": "ID",
+    "continent": "OC",
+    "name": "Indonesia"
+  },
+  "33": {
+    "cc": "GB",
+    "continent": "AF",
+    "name": "Chagos Islands"
+  },
+  "330": {
+    "cc": "IR",
+    "continent": "AS",
+    "name": "Iran"
+  },
+  "333": {
+    "cc": "IQ",
+    "continent": "AS",
+    "name": "Iraq"
+  },
+  "336": {
+    "cc": "IL",
+    "continent": "AS",
+    "name": "Israel"
+  },
+  "339": {
+    "cc": "JP",
+    "continent": "AS",
+    "name": "Japan"
+  },
+  "34": {
+    "cc": "NZ",
+    "continent": "OC",
+    "name": "Chatham Islands"
+  },
+  "342": {
+    "cc": "JO",
+    "continent": "AS",
+    "name": "Jordan"
+  },
+  "344": {
+    "cc": "KP",
+    "continent": "AS",
+    "name": "North Korea"
+  },
+  "345": {
+    "cc": "BN",
+    "continent": "OC",
+    "name": "Brunei"
+  },
+  "348": {
+    "cc": "KW",
+    "continent": "AS",
+    "name": "Kuwait"
+  },
+  "35": {
+    "cc": "CX",
+    "continent": "OC",
+    "name": "Christmas Island"
+  },
+  "354": {
+    "cc": "LB",
+    "continent": "AS",
+    "name": "Lebanon"
+  },
+  "36": {
+    "cc": "FR",
+    "continent": "NA",
+    "name": "Clipperton Island"
+  },
+  "363": {
+    "cc": "MN",
+    "continent": "AS",
+    "name": "Mongolia"
+  },
+  "369": {
+    "cc": "NP",
+    "continent": "AS",
+    "name": "Nepal"
+  },
+  "37": {
+    "cc": "CR",
+    "continent": "NA",
+    "name": "Cocos Island"
+  },
+  "370": {
+    "cc": "OM",
+    "continent": "AS",
+    "name": "Oman"
+  },
+  "372": {
+    "cc": "PK",
+    "continent": "AS",
+    "name": "Pakistan"
+  },
+  "375": {
+    "cc": "PH",
+    "continent": "OC",
+    "name": "Philippines"
+  },
+  "376": {
+    "cc": "QA",
+    "continent": "AS",
+    "name": "Qatar"
+  },
+  "378": {
+    "cc": "SA",
+    "continent": "AS",
+    "name": "Saudi Arabia"
+  },
+  "379": {
+    "cc": "SC",
+    "continent": "AF",
+    "name": "Seychelles"
+  },
+  "38": {
+    "cc": "CC",
+    "continent": "OC",
+    "name": "Cocos-Keeling Islands"
+  },
+  "381": {
+    "cc": "SG",
+    "continent": "AS",
+    "name": "Singapore"
+  },
+  "382": {
+    "cc": "DJ",
+    "continent": "AF",
+    "name": "Djibouti"
+  },
+  "384": {
+    "cc": "SY",
+    "continent": "AS",
+    "name": "Syria"
+  },
+  "386": {
+    "cc": "TW",
+    "continent": "AS",
+    "name": "Taiwan"
+  },
+  "387": {
+    "cc": "TH",
+    "continent": "AS",
+    "name": "Thailand"
+  },
+  "390": {
+    "cc": "TR",
+    "continent": "AS",
+    "name": "Turkey"
+  },
+  "391": {
+    "cc": "AE",
+    "continent": "AS",
+    "name": "United Arab Emirates"
+  },
+  "4": {
+    "cc": "MP",
+    "continent": "AF",
+    "name": "Agalega and St Brandon"
+  },
+  "40": {
+    "cc": "GR",
+    "continent": "EU",
+    "name": "Crete"
+  },
+  "400": {
+    "cc": "DZ",
+    "continent": "AF",
+    "name": "Algeria"
+  },
+  "401": {
+    "cc": "AO",
+    "continent": "AF",
+    "name": "Angola"
+  },
+  "402": {
+    "cc": "BW",
+    "continent": "AF",
+    "name": "Botswana"
+  },
+  "404": {
+    "cc": "BI",
+    "continent": "AF",
+    "name": "Burundi"
+  },
+  "406": {
+    "cc": "CM",
+    "continent": "AF",
+    "name": "Cameroon"
+  },
+  "408": {
+    "cc": "CF",
+    "continent": "AF",
+    "name": "Central African Republic"
+  },
+  "409": {
+    "cc": "CV",
+    "continent": "AF",
+    "name": "Cape Verde"
+  },
+  "41": {
+    "cc": "FR",
+    "continent": "AF",
+    "name": "Crozet Island"
+  },
+  "410": {
+    "cc": "TD",
+    "continent": "AF",
+    "name": "Chad"
+  },
+  "411": {
+    "cc": "KM",
+    "continent": "AF",
+    "name": "Comoros"
+  },
+  "412": {
+    "cc": "CG",
+    "continent": "AF",
+    "name": "Congo"
+  },
+  "414": {
+    "cc": "CD",
+    "continent": "AF",
+    "name": "Congo, Dem. Republic of"
+  },
+  "416": {
+    "cc": "BJ",
+    "continent": "AF",
+    "name": "Benin"
+  },
+  "420": {
+    "cc": "GA",
+    "continent": "AF",
+    "name": "Gabon"
+  },
+  "422": {
+    "cc": "GM",
+    "continent": "AF",
+    "name": "The Gambia"
+  },
+  "424": {
+    "cc": "GH",
+    "continent": "AF",
+    "name": "Ghana"
+  },
+  "428": {
+    "cc": "CI",
+    "continent": "AF",
+    "name": "Ivory Coast"
+  },
+  "43": {
+    "cc": "PR",
+    "continent": "NA",
+    "name": "Desecheo Island"
+  },
+  "430": {
+    "cc": "KE",
+    "continent": "AF",
+    "name": "Kenya"
+  },
+  "432": {
+    "cc": "LS",
+    "continent": "AF",
+    "name": "Lesotho"
+  },
+  "434": {
+    "cc": "LR",
+    "continent": "AF",
+    "name": "Liberia"
+  },
+  "436": {
+    "cc": "LY",
+    "continent": "AF",
+    "name": "Libya"
+  },
+  "438": {
+    "cc": "MG",
+    "continent": "AF",
+    "name": "Madagascar"
+  },
+  "44": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Desroches"
+  },
+  "440": {
+    "cc": "MW",
+    "continent": "AF",
+    "name": "Malawi"
+  },
+  "442": {
+    "cc": "ML",
+    "continent": "AF",
+    "name": "Mali"
+  },
+  "444": {
+    "cc": "MR",
+    "continent": "AF",
+    "name": "Mauritania"
+  },
+  "446": {
+    "cc": "MA",
+    "continent": "AF",
+    "name": "Morocco"
+  },
+  "45": {
+    "cc": "GR",
+    "continent": "EU",
+    "name": "Dodecanese"
+  },
+  "450": {
+    "cc": "NG",
+    "continent": "AF",
+    "name": "Nigeria"
+  },
+  "452": {
+    "cc": "ZW",
+    "continent": "AF",
+    "name": "Zimbabwe"
+  },
+  "453": {
+    "cc": "RE",
+    "continent": "AF",
+    "name": "Reunion"
+  },
+  "454": {
+    "cc": "RW",
+    "continent": "AF",
+    "name": "Rwanda"
+  },
+  "456": {
+    "cc": "SN",
+    "continent": "AF",
+    "name": "Senegal"
+  },
+  "458": {
+    "cc": "SL",
+    "continent": "AF",
+    "name": "Sierra Leone"
+  },
+  "46": {
+    "cc": "MY",
+    "continent": "OC",
+    "name": "East Malaysia"
+  },
+  "460": {
+    "cc": "FJ",
+    "continent": "OC",
+    "name": "Rotuma"
+  },
+  "462": {
+    "cc": "ZA",
+    "continent": "AF",
+    "name": "South Africa"
+  },
+  "464": {
+    "cc": "NA",
+    "continent": "AF",
+    "name": "Namibia"
+  },
+  "466": {
+    "cc": "SD",
+    "continent": "AF",
+    "name": "Sudan"
+  },
+  "468": {
+    "cc": "SZ",
+    "continent": "AF",
+    "name": "Eswatini"
+  },
+  "47": {
+    "cc": "CL",
+    "continent": "SA",
+    "name": "Easter Island"
+  },
+  "470": {
+    "cc": "TZ",
+    "continent": "AF",
+    "name": "Tanzania"
+  },
+  "474": {
+    "cc": "TN",
+    "continent": "AF",
+    "name": "Tunisia"
+  },
+  "478": {
+    "cc": "EG",
+    "continent": "AF",
+    "name": "Egypt"
+  },
+  "48": {
+    "cc": "KI",
+    "continent": "OC",
+    "name": "East Kiribati"
+  },
+  "480": {
+    "cc": "BF",
+    "continent": "AF",
+    "name": "Burkina Faso"
+  },
+  "482": {
+    "cc": "ZM",
+    "continent": "AF",
+    "name": "Zambia"
+  },
+  "483": {
+    "cc": "TG",
+    "continent": "AF",
+    "name": "Togo"
+  },
+  "488": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Walvis Bay"
+  },
+  "489": {
+    "cc": "FJ",
+    "continent": "OC",
+    "name": "Conway Reef"
+  },
+  "49": {
+    "cc": "GQ",
+    "continent": "AF",
+    "name": "Equatorial Guinea"
+  },
+  "490": {
+    "cc": "KI",
+    "continent": "OC",
+    "name": "Banaba Island"
+  },
+  "492": {
+    "cc": "YE",
+    "continent": "AS",
+    "name": "Yemen"
+  },
+  "493": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Penguin Is."
+  },
+  "497": {
+    "cc": "HR",
+    "continent": "EU",
+    "name": "Croatia"
+  },
+  "499": {
+    "cc": "SI",
+    "continent": "EU",
+    "name": "Slovenia"
+  },
+  "5": {
+    "cc": "AX",
+    "continent": "EU",
+    "name": "Aland Islands"
+  },
+  "50": {
+    "cc": "MX",
+    "continent": "NA",
+    "name": "Mexico"
+  },
+  "501": {
+    "cc": "BA",
+    "continent": "EU",
+    "name": "Bosnia and Herzegovina"
+  },
+  "502": {
+    "cc": "MK",
+    "continent": "EU",
+    "name": "North Macedonia (Republic of)"
+  },
+  "503": {
+    "cc": "CZ",
+    "continent": "EU",
+    "name": "Czech Republic"
+  },
+  "504": {
+    "cc": "SK",
+    "continent": "EU",
+    "name": "Slovak Republic"
+  },
+  "505": {
+    "cc": "TW",
+    "continent": "AS",
+    "name": "Pratas Island"
+  },
+  "506": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Scarborough Reef"
+  },
+  "507": {
+    "cc": "SB",
+    "continent": "OC",
+    "name": "Temotu"
+  },
+  "508": {
+    "cc": "PF",
+    "continent": "OC",
+    "name": "Austral Islands"
+  },
+  "509": {
+    "cc": "FR",
+    "continent": "OC",
+    "name": "Marquesas Islands"
+  },
+  "51": {
+    "cc": "ER",
+    "continent": "AF",
+    "name": "Eritrea"
+  },
+  "510": {
+    "cc": "PS",
+    "continent": "AS",
+    "name": "Palestine"
+  },
+  "511": {
+    "cc": "TL",
+    "continent": "OC",
+    "name": "Timor Leste"
+  },
+  "512": {
+    "cc": "GB",
+    "continent": "OC",
+    "name": "Chesterfield Islands"
+  },
+  "513": {
+    "cc": "PN",
+    "continent": "OC",
+    "name": "Ducie Island"
+  },
+  "514": {
+    "cc": "ME",
+    "continent": "EU",
+    "name": "Montenegro"
+  },
+  "515": {
+    "cc": "US",
+    "continent": "OC",
+    "name": "Swains Island"
+  },
+  "516": {
+    "cc": null,
+    "continent": "NA",
+    "name": "St. Barthelemy"
+  },
+  "517": {
+    "cc": "AN",
+    "continent": "SA",
+    "name": "Curacao"
+  },
+  "518": {
+    "cc": null,
+    "continent": "NA",
+    "name": "St. Maarten"
+  },
+  "519": {
+    "cc": "AN",
+    "continent": "NA",
+    "name": "Saba, St Eustatius"
+  },
+  "52": {
+    "cc": "EE",
+    "continent": "EU",
+    "name": "Estonia"
+  },
+  "520": {
+    "cc": null,
+    "continent": "SA",
+    "name": "Bonaire"
+  },
+  "521": {
+    "cc": "SS",
+    "continent": "AF",
+    "name": "South Sudan"
+  },
+  "522": {
+    "cc": null,
+    "continent": "EU",
+    "name": "Republic of Kosovo"
+  },
+  "53": {
+    "cc": "ET",
+    "continent": "AF",
+    "name": "Ethiopia"
+  },
+  "54": {
+    "cc": "RU",
+    "continent": "EU",
+    "name": "Russia"
+  },
+  "55": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Farquhar"
+  },
+  "56": {
+    "cc": "BR",
+    "continent": "SA",
+    "name": "Fernando de Noronha"
+  },
+  "57": {
+    "cc": null,
+    "continent": "AF",
+    "name": "French Equatorial Africa"
+  },
+  "58": {
+    "cc": null,
+    "continent": "AS",
+    "name": "French Indo-China"
+  },
+  "59": {
+    "cc": null,
+    "continent": "AF",
+    "name": "French West Africa"
+  },
+  "6": {
+    "cc": "US",
+    "continent": "NA",
+    "name": "Alaska"
+  },
+  "60": {
+    "cc": "BS",
+    "continent": "NA",
+    "name": "Bahamas"
+  },
+  "61": {
+    "cc": "RU",
+    "continent": "EU",
+    "name": "Franz Josef Land"
+  },
+  "62": {
+    "cc": "BB",
+    "continent": "NA",
+    "name": "Barbados"
+  },
+  "63": {
+    "cc": "GF",
+    "continent": "SA",
+    "name": "French Guiana"
+  },
+  "64": {
+    "cc": "BM",
+    "continent": "NA",
+    "name": "Bermuda"
+  },
+  "65": {
+    "cc": "VG",
+    "continent": "NA",
+    "name": "British Virgin Islands"
+  },
+  "66": {
+    "cc": "BZ",
+    "continent": "NA",
+    "name": "Belize"
+  },
+  "67": {
+    "cc": null,
+    "continent": "AS",
+    "name": "French India"
+  },
+  "68": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Kuwait/Saudi Arabia Neutral Zone"
+  },
+  "69": {
+    "cc": "KY",
+    "continent": "NA",
+    "name": "Cayman Islands"
+  },
+  "7": {
+    "cc": "AL",
+    "continent": "EU",
+    "name": "Albania"
+  },
+  "70": {
+    "cc": "CU",
+    "continent": "NA",
+    "name": "Cuba"
+  },
+  "71": {
+    "cc": "EC",
+    "continent": "SA",
+    "name": "Galapagos Islands"
+  },
+  "72": {
+    "cc": "DO",
+    "continent": "NA",
+    "name": "Dominican Republic"
+  },
+  "74": {
+    "cc": "SV",
+    "continent": "NA",
+    "name": "El Salvador"
+  },
+  "75": {
+    "cc": "GE",
+    "continent": "AS",
+    "name": "Georgia"
+  },
+  "76": {
+    "cc": "GT",
+    "continent": "NA",
+    "name": "Guatemala"
+  },
+  "77": {
+    "cc": "GD",
+    "continent": "NA",
+    "name": "Grenada"
+  },
+  "78": {
+    "cc": "HT",
+    "continent": "NA",
+    "name": "Haiti"
+  },
+  "79": {
+    "cc": "GP",
+    "continent": "NA",
+    "name": "Guadeloupe"
+  },
+  "8": {
+    "cc": null,
+    "continent": "AF",
+    "name": "Aldabra"
+  },
+  "80": {
+    "cc": "HN",
+    "continent": "NA",
+    "name": "Honduras"
+  },
+  "81": {
+    "cc": null,
+    "continent": "EU",
+    "name": "Germany (OLD/East Germany)"
+  },
+  "82": {
+    "cc": "JM",
+    "continent": "NA",
+    "name": "Jamaica"
+  },
+  "84": {
+    "cc": "MQ",
+    "continent": "NA",
+    "name": "Martinique"
+  },
+  "85": {
+    "cc": "AN",
+    "continent": "SA",
+    "name": "Netherlands Antillies"
+  },
+  "86": {
+    "cc": "NI",
+    "continent": "NA",
+    "name": "Nicaragua"
+  },
+  "88": {
+    "cc": "PA",
+    "continent": "NA",
+    "name": "Panama"
+  },
+  "89": {
+    "cc": "TC",
+    "continent": "NA",
+    "name": "Turks and  Caicos Islands"
+  },
+  "9": {
+    "cc": "AS",
+    "continent": "OC",
+    "name": "American Samoa"
+  },
+  "90": {
+    "cc": "TT",
+    "continent": "SA",
+    "name": "Trinidad and Tobago"
+  },
+  "901": {
+    "cc": null,
+    "continent": "AS",
+    "name": "Northern Cyprus"
+  },
+  "91": {
+    "cc": "AW",
+    "continent": "SA",
+    "name": "Aruba"
+  },
+  "94": {
+    "cc": "AG",
+    "continent": "NA",
+    "name": "Antigua and Barbuda"
+  },
+  "95": {
+    "cc": "DM",
+    "continent": "NA",
+    "name": "Dominica"
+  },
+  "96": {
+    "cc": "MS",
+    "continent": "NA",
+    "name": "Montserrat"
+  },
+  "97": {
+    "cc": "LC",
+    "continent": "NA",
+    "name": "St Lucia"
+  },
+  "98": {
+    "cc": "VC",
+    "continent": "NA",
+    "name": "St Vincent"
+  },
+  "99": {
+    "cc": "FR",
+    "continent": "AF",
+    "name": "Glorioso Islands"
+  }
+}

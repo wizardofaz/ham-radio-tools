@@ -14,11 +14,98 @@ QRZ_XML_BASE = "https://xmldata.qrz.com/xml/current/"
 class QRZError(Exception):
     pass
 
+
 def _safe_text(value):
     if value is None:
         return None
     value = str(value).strip()
     return value if value else None
+
+
+def _norm_upper(value):
+    value = _safe_text(value)
+    return value.upper() if value else None
+
+
+def _norm_text(value):
+    return _safe_text(value)
+
+
+QRZ_CALLSIGN_FIELDS = [
+    {
+        "name": "returned_call",
+        "xml_key": "call",
+        "normalizer": _norm_upper,
+        "freshness_required": True,
+    },
+    {
+        "name": "state",
+        "xml_key": "state",
+        "normalizer": _norm_text,
+        "freshness_required": False,
+    },
+    {
+        "name": "country",
+        "xml_key": "country",
+        "normalizer": _norm_text,
+        "freshness_required": True,
+    },
+    {
+        "name": "dxcc",
+        "xml_key": "dxcc",
+        "normalizer": _norm_upper,
+        "freshness_required": True,
+    },
+    {
+        "name": "continent",
+        "xml_key": None,   # filled internally from dxcc lookup
+        "normalizer": _norm_upper,
+        "freshness_required": True,
+    },
+    {
+        "name": "grid",
+        "xml_key": "grid",
+        "normalizer": _norm_upper,
+        "freshness_required": False,
+    },
+    {
+        "name": "county",
+        "xml_key": "county",
+        "normalizer": _norm_text,
+        "freshness_required": False,
+    },
+    {
+        "name": "fname",
+        "xml_key": "fname",
+        "normalizer": _norm_text,
+        "freshness_required": False,
+    },
+    {
+        "name": "name",
+        "xml_key": "name",
+        "normalizer": _norm_text,
+        "freshness_required": False,
+    },
+]
+
+
+def _empty_payload():
+    """
+    Generate an empty payload matching the QRZ_CALLSIGN_FIELDS schema.
+    Ensures failure results have the same structure as successful lookups.
+    """
+    return {spec["name"]: None for spec in QRZ_CALLSIGN_FIELDS}
+
+def _field_spec_by_name(field_name):
+    for spec in QRZ_CALLSIGN_FIELDS:
+        if spec["name"] == field_name:
+            return spec
+    return None
+
+
+def _has_value(value):
+    return _safe_text(value) is not None
+
 
 def _looks_like_callsign(token):
     """
@@ -34,26 +121,25 @@ def _looks_like_callsign(token):
 
     t = token.upper()
 
-    # Must have at least one letter and one digit
     if not re.search(r"[A-Z]", t):
         return False
     if not re.search(r"\d", t):
         return False
 
-    # Portable designators like P, M, MM, AM, 0, 7 should not win
     if len(t) <= 2:
         return False
 
-    # Basic allowed chars
     if not re.fullmatch(r"[A-Z0-9]+", t):
         return False
 
     return True
 
+
 def _strip_ns(tag):
     if "}" in tag:
         return tag.split("}", 1)[1]
     return tag
+
 
 def _xml_to_dict(element):
     data = {}
@@ -64,6 +150,7 @@ def _xml_to_dict(element):
         data[_strip_ns(child.tag)] = _safe_text(child.text)
 
     return data
+
 
 def strip_to_base_call(call):
     """
@@ -85,10 +172,6 @@ def strip_to_base_call(call):
     if not candidates:
         return call.upper()
 
-    # Prefer the most callsign-looking token:
-    # 1) contains letters+digits
-    # 2) longer beats tiny portable suffixes
-    # 3) ties broken by more letters
     def score(token):
         letters = len(re.findall(r"[A-Z]", token))
         digits = len(re.findall(r"\d", token))
@@ -96,6 +179,7 @@ def strip_to_base_call(call):
 
     candidates.sort(key=score, reverse=True)
     return candidates[0]
+
 
 def cache_ttl_seconds(entry):
     query_call = (entry.get("query_call") or "").upper()
@@ -112,6 +196,7 @@ def cache_ttl_seconds(entry):
         return 30 * 86400
 
     return 180 * 86400
+
 
 class QRZLookupClient:
     def __init__(self, cache_path, username=None, password=None, timeout=20):
@@ -130,31 +215,10 @@ class QRZLookupClient:
             "qrz_stripped_hits": 0,
             "qrz_not_found": 0,
             "qrz_login_retries": 0,
+            "qrz_dxcc_cache_hits": 0,
+            "qrz_dxcc_queries_attempted": 0,
+            "qrz_continent_filled": 0,
         }
-
-    def _cache_ttl_seconds(self, entry):
-        query_call = (entry.get("query_call") or "").upper()
-        found = entry.get("found", False)
-        lookup_mode = entry.get("lookup_mode")
-
-        if not found:
-            return 7 * 86400
-
-        if "/" in query_call:
-            return 3 * 86400
-
-        if lookup_mode == "stripped":
-            return 30 * 86400
-
-        return 180 * 86400
-
-    def _cache_entry_is_fresh(self, entry):
-        ts = entry.get("timestamp")
-        if not ts:
-            return False
-
-        age = time.time() - ts
-        return age < self._cache_ttl_seconds(entry)
 
     def enabled(self):
         return bool(self.username and self.password)
@@ -175,35 +239,6 @@ class QRZLookupClient:
             json.dump(self.cache, f, indent=2, sort_keys=True)
         tmp.replace(self.cache_path)
 
-    def _cache_ttl_seconds(self, entry):
-        query_call = (entry.get("query_call") or "").upper()
-        found = entry.get("found", False)
-        lookup_mode = entry.get("lookup_mode")
-
-        # Not found: retry fairly soon
-        if not found:
-            return 7 * 86400
-
-        # Portable or prefixed/suffixed calls: refresh often
-        if "/" in query_call:
-            return 3 * 86400
-
-        # Base-call fallback result: medium lifetime
-        if lookup_mode == "stripped":
-            return 30 * 86400
-
-        # Ordinary exact calls: long lifetime
-        return 180 * 86400
-
-
-    def _cache_entry_is_fresh(self, entry):
-        ts = entry.get("timestamp")
-        if not ts:
-            return False
-
-        age = time.time() - ts
-        return age < self._cache_ttl_seconds(entry)
-
     def _http_get_xml(self, params):
         url = QRZ_XML_BASE + "?" + urllib.parse.urlencode(params)
         with urllib.request.urlopen(url, timeout=self.timeout) as resp:
@@ -217,6 +252,7 @@ class QRZLookupClient:
 
         session = None
         callsign = None
+        dxcc = None
 
         for elem in root.iter():
             tag = _strip_ns(elem.tag)
@@ -224,11 +260,14 @@ class QRZLookupClient:
                 session = elem
             elif tag == "Callsign" and callsign is None:
                 callsign = elem
+            elif tag == "DXCC" and dxcc is None:
+                dxcc = elem
 
-        session_data = _xml_to_dict(session)
+        session_data = {k.lower(): v for k, v in _xml_to_dict(session).items()}
         callsign_data = {k.lower(): v for k, v in _xml_to_dict(callsign).items()}
+        dxcc_data = {k.lower(): v for k, v in _xml_to_dict(dxcc).items()}
 
-        return session_data, callsign_data
+        return session_data, callsign_data, dxcc_data
 
     def login(self):
         if not self.enabled():
@@ -238,10 +277,10 @@ class QRZLookupClient:
             "username": self.username,
             "password": self.password,
         })
-        session_data, _ = self._parse_xml_response(xml_bytes)
+        session_data, _, _ = self._parse_xml_response(xml_bytes)
 
-        key = session_data.get("Key") or session_data.get("key")
-        error = session_data.get("Error") or session_data.get("error")
+        key = session_data.get("key")
+        error = session_data.get("error")
 
         if not key:
             if error:
@@ -251,45 +290,112 @@ class QRZLookupClient:
         self.session_key = key
         return key
 
-    def _lookup_once(self, query_call):
+    def _query_with_session(self, params):
         if not self.session_key:
             self.login()
 
-        self.stats["qrz_queries_attempted"] += 1
-
         time.sleep(1)
-        xml_bytes = self._http_get_xml({
-            "s": self.session_key,
-            "callsign": query_call,
-        })
-        session_data, callsign_data = self._parse_xml_response(xml_bytes)
+        xml_bytes = self._http_get_xml({"s": self.session_key, **params})
+        session_data, callsign_data, dxcc_data = self._parse_xml_response(xml_bytes)
 
-        error = session_data.get("Error") or session_data.get("error")
-        key = session_data.get("Key") or session_data.get("key")
+        error = session_data.get("error")
+        key = session_data.get("key")
 
-        # Session invalid/expired: QRZ docs say re-login and retry. :contentReference[oaicite:1]{index=1}
-        session_error_text = (error or "").lower() if error else ""
-        if (not key) or ("session" in session_error_text and "error" not in callsign_data):
+        session_error_text = (error or "").lower()
+        session_invalid = (not key) or ("session" in session_error_text and not callsign_data and not dxcc_data)
+
+        if session_invalid:
             self.stats["qrz_login_retries"] += 1
             self.login()
-            xml_bytes = self._http_get_xml({
-                "s": self.session_key,
-                "callsign": query_call,
-            })
-            session_data, callsign_data = self._parse_xml_response(xml_bytes)
-            error = session_data.get("Error") or session_data.get("error")
+            xml_bytes = self._http_get_xml({"s": self.session_key, **params})
+            session_data, callsign_data, dxcc_data = self._parse_xml_response(xml_bytes)
+
+        return session_data, callsign_data, dxcc_data
+
+    def _extract_callsign_payload(self, callsign_data):
+        payload = {}
+        for spec in QRZ_CALLSIGN_FIELDS:
+            xml_key = spec["xml_key"]
+            if xml_key is None:
+                continue
+            raw_value = callsign_data.get(xml_key)
+            payload[spec["name"]] = spec["normalizer"](raw_value)
+        return payload
+    
+    def _cache_entry_is_fresh(self, entry):
+        ts = entry.get("timestamp")
+        if not ts:
+            return False
+
+        age = time.time() - ts
+        if age >= cache_ttl_seconds(entry):
+            return False
+
+        if not entry.get("found", False):
+            return True
+
+        for spec in QRZ_CALLSIGN_FIELDS:
+            if spec["freshness_required"] and not _has_value(entry.get(spec["name"])):
+                return False
+
+        return True
+
+    def _dxcc_cache_entry_is_fresh(self, entry):
+        ts = entry.get("timestamp")
+        if not ts:
+            return False
+
+        continent = _norm_upper(entry.get("continent"))
+        if not continent:
+            return False
+
+        age = time.time() - ts
+        return age < (365 * 86400)
+
+    def _lookup_dxcc_continent(self, dxcc):
+        dxcc = _norm_upper(dxcc)
+        if not dxcc:
+            return None
+
+        cache_key = f"DXCC::{dxcc}"
+        entry = self.cache.get(cache_key)
+
+        if entry and self._dxcc_cache_entry_is_fresh(entry):
+            self.stats["qrz_dxcc_cache_hits"] += 1
+            return _norm_upper(entry.get("continent"))
+
+        self.stats["qrz_dxcc_queries_attempted"] += 1
+
+        session_data, _, dxcc_data = self._query_with_session({"dxcc": dxcc})
+        error = session_data.get("error")
+
+        if error and not dxcc_data:
+            return None
+
+        continent = _norm_upper(dxcc_data.get("continent"))
+
+        self.cache[cache_key] = {
+            "dxcc": dxcc,
+            "continent": continent,
+            "timestamp": int(time.time()),
+        }
+        self.save_cache()
+
+        return continent
+
+    def _lookup_once(self, query_call):
+        self.stats["qrz_queries_attempted"] += 1
+
+        session_data, callsign_data, _ = self._query_with_session({"callsign": query_call})
+        error = session_data.get("error")
 
         if error and "not found" in error.lower():
+            payload = _empty_payload()
+
             return {
                 "found": False,
                 "query_call": query_call,
-                "returned_call": None,
-                "state": None,
-                "country": None,
-                "grid": None,
-                "county": None,
-                "fname": None,
-                "name": None,
+                **payload,
                 "source": "qrz",
                 "lookup_mode": "exact",
                 "error": error,
@@ -299,17 +405,16 @@ class QRZLookupClient:
         if error and not callsign_data:
             raise QRZError(f"QRZ lookup failed for {query_call}: {error}")
 
-        # Extract a small normalized payload
+        payload = self._extract_callsign_payload(callsign_data)
+        continent = self._lookup_dxcc_continent(payload.get("dxcc"))
+        if continent:
+            self.stats["qrz_continent_filled"] += 1
+
         result = {
             "found": bool(callsign_data),
             "query_call": query_call,
-            "returned_call": callsign_data.get("call"),
-            "state": callsign_data.get("state"),
-            "country": callsign_data.get("country"),
-            "grid": callsign_data.get("grid"),
-            "county": callsign_data.get("county"),
-            "fname": callsign_data.get("fname"),
-            "name": callsign_data.get("name"),
+            **payload,
+            "continent": continent,
             "source": "qrz",
             "lookup_mode": "exact",
             "error": error,
@@ -329,7 +434,6 @@ class QRZLookupClient:
 
         call = call.upper()
 
-        # Cache exact query result by original call
         cache_key = call
         entry = self.cache.get(cache_key)
         if entry and self._cache_entry_is_fresh(entry):
@@ -374,6 +478,7 @@ class QRZLookupClient:
         self.save_cache()
         return exact
 
+
 def test_stub():
     """
     Minimal interactive test:
@@ -413,6 +518,7 @@ def test_stub():
     print(json.dumps(client.stats, indent=2, sort_keys=True))
 
     print(f"\nCache file: {cache_file}")
+
 
 if __name__ == "__main__":
     test_stub()

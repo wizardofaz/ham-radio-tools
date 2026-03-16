@@ -2,9 +2,86 @@ import pandas as pd
 
 from .geo_infer import infer_admin1_from_grid
 from .qrz_lookup import QRZLookupClient
-
+from contest_summary.dxcc import continent_from_dxcc
+from .dxcc import continent_from_dxcc
 
 FIELDS_TO_REUSE = ["STATE", "VE_PROV", "COUNTRY", "GRIDSQUARE", "CONT"]
+
+COUNTRY_TO_CONTINENT = {
+    "United States": "NA",
+    "United States of America": "NA",
+    "USA": "NA",
+    "U.S.A.": "NA",
+    "Canada": "NA",
+    "Mexico": "NA",
+
+    "England": "EU",
+    "Scotland": "EU",
+    "Wales": "EU",
+    "Northern Ireland": "EU",
+    "Ireland": "EU",
+    "Italy": "EU",
+    "Spain": "EU",
+    "Germany": "EU",
+    "France": "EU",
+    "Romania": "EU",
+    "Croatia": "EU",
+    "Poland": "EU",
+    "Russia": "EU",
+
+    "Japan": "AS",
+    "China": "AS",
+    "South Korea": "AS",
+    "Indonesia": "AS",
+    "India": "AS",
+
+    "Brazil": "SA",
+    "Argentina": "SA",
+    "Colombia": "SA",
+    "Chile": "SA",
+    "Peru": "SA",
+
+    "Australia": "OC",
+    "New Zealand": "OC",
+
+    "South Africa": "AF",
+    "Morocco": "AF",
+    "Egypt": "AF",
+}
+
+
+def continent_from_country(country):
+    country = clean_value(country)
+    if not country:
+        return None
+    return COUNTRY_TO_CONTINENT.get(country)
+
+
+def apply_continent_fill_pass(df, stats):
+    """
+    Final pass to populate CONT using:
+      1. DXCC lookup table
+      2. small country heuristic fallback
+    """
+    for idx, row in df.iterrows():
+        if not is_missing(row.get("CONT")):
+            continue
+
+        # First choice: DXCC table
+        dxcc = clean_value(row.get("DXCC"))
+        cont = continent_from_dxcc(dxcc)
+        if cont:
+            df.at[idx, "CONT"] = cont
+            stats["filled_from_dxcc_cont"] += 1
+            continue
+
+        # Fallback: heuristic from country name
+        country = clean_value(row.get("COUNTRY"))
+        cont = continent_from_country(country)
+        if cont:
+            df.at[idx, "CONT"] = cont
+            stats["filled_from_country_cont"] += 1
+            continue
 
 
 def is_missing(value):
@@ -137,6 +214,10 @@ def enrich_records(df, use_qrz=False, qrz_cache_path=None):
         "filled_from_qrz_ve_prov": 0,
         "filled_from_qrz_country": 0,
         "filled_from_qrz_grid": 0,
+        "filled_from_qrz_dxcc": 0,
+        "filled_from_qrz_cont": 0,
+        "filled_from_dxcc_cont": 0,
+        "filled_from_country_cont": 0,
         "qrz_cache_hits": 0,
         "qrz_queries_attempted": 0,
         "qrz_exact_hits": 0,
@@ -247,12 +328,27 @@ def enrich_records(df, use_qrz=False, qrz_cache_path=None):
             qrz_state = clean_value(result.get("state"))
             qrz_grid = clean_value(result.get("grid"))
 
+            qrz_dxcc = clean_value(result.get("dxcc"))
+            qrz_cont = clean_value(result.get("continent"))
+
             filled_any = False
 
             if needs_country and qrz_country:
                 df.at[idx, "COUNTRY"] = qrz_country
                 stats["filled_from_qrz"] += 1
                 stats["filled_from_qrz_country"] += 1
+                filled_any = True
+
+            if is_missing(row.get("DXCC")) and qrz_dxcc:
+                df.at[idx, "DXCC"] = qrz_dxcc
+                stats["filled_from_qrz"] += 1
+                stats["filled_from_qrz_dxcc"] += 1
+                filled_any = True
+
+            if is_missing(row.get("CONT")) and qrz_cont:
+                df.at[idx, "CONT"] = qrz_cont.upper()
+                stats["filled_from_qrz"] += 1
+                stats["filled_from_qrz_cont"] += 1
                 filled_any = True
 
             # US state
@@ -293,6 +389,9 @@ def enrich_records(df, use_qrz=False, qrz_cache_path=None):
 
         # Second grid-based inference pass, now that QRZ may have added grids/country
         apply_grid_inference_pass(df, stats)
+
+        # Final continent completion pass
+        apply_continent_fill_pass(df, stats)
 
     stats["missing_after"] = {
         "STATE_US_ONLY": count_missing_where(df, "STATE", is_us_qso),

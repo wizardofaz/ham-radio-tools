@@ -180,6 +180,18 @@ source venv/bin/activate
 
 ## 3. Install dependencies
 
+The map feature uses GeoPandas which depends on GDAL.
+
+On Linux you may need to install GDAL before installing the Python requirements.
+
+Example (Debian/Ubuntu):
+
+    sudo apt install gdal-bin libgdal-dev
+
+Then install Python requirements:
+
+    pip install -r requirements.txt
+
 ```
 pip install -r requirements.txt
 ```

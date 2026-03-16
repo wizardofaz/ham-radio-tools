@@ -5,7 +5,6 @@ from .config import load_config, apply_cli_overrides
 from .cli import parse_args
 from .adif_utils import load_adif
 from .enrich import enrich_records
-from .charts import render_band_pie, render_continent_pie
 from .maps import render_map
 from .summary import write_summary
 from .operators import add_operator_column
@@ -26,10 +25,7 @@ def main():
     args = parse_args()
     adif_path = Path(args.adif)
 
-    if args.outdir:
-        outdir = Path(args.outdir)
-    else:
-        outdir = adif_path.parent
+    outdir = Path(args.outdir)
     outdir.mkdir(parents=True, exist_ok=True)
     
     config = load_config(args.config)
@@ -40,7 +36,7 @@ def main():
     mode_categories = config["mode_categories"]
 
     title = args.title if args.title else adif_path.stem
-    qrz_cache_path = outdir / "qrz_cache.json"
+    qrz_cache_path = args.qrz_cache_path
 
     print("Loading ADIF...")
     df = load_adif(adif_path)
@@ -56,6 +52,11 @@ def main():
     df["MODE_NORM"] = normalize_mode_series(df["MODE"], mode_categories)
     sessions_df = build_sessions(df, gap_minutes)
     
+    # debug prints:
+    print(df["BAND"].value_counts(dropna=False))
+    print(df["CONT"].value_counts(dropna=False))
+    print(df["COUNTRY"].value_counts(dropna=False).head(20))
+
     print("Generating charts...")
 
     render_band_pie(df, title, outdir, overwrite=args.overwrite)
@@ -86,6 +87,10 @@ def main():
     print(f" Stripped-call hits: {stats['qrz_stripped_hits']}")
     print(f" Not found: {stats['qrz_not_found']}")
     print(f" Login retries: {stats['qrz_login_retries']}")
+    print(f" DXCC: {stats['filled_from_qrz_dxcc']}")
+    print(f" CONT: {stats['filled_from_qrz_cont']}")
+    print(f" CONT from DXCC table: {stats['filled_from_dxcc_cont']}")
+    print(f" CONT from country fallback: {stats['filled_from_country_cont']}")    
     print(" Scope:")
     print(f" US QSOs: {stats['qso_scope']['US_QSOS']}")
     print(f" Canada QSOs: {stats['qso_scope']['CANADA_QSOS']}")

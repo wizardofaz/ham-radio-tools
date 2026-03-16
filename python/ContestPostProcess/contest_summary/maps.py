@@ -86,11 +86,11 @@ def _fig_ax(title, subtitle):
 
 
 def render_map(df, title, outdir, args, overwrite=False):
-    if args.map == "countries":
+    if args.map == "countries" or args.map == "all":
         render_countries_map(df, title, outdir, include_lower48=args.include_lower48, overwrite=overwrite)
-    elif args.map == "states_dx":
+    elif args.map == "states_dx" or args.map == "all":
         render_states_dx_map(df, title, outdir, overwrite=overwrite)
-    elif args.map == "na_states_dx":
+    elif args.map == "na_states_dx" or args.map == "all":
         render_na_states_dx_map(df, title, outdir, overwrite=overwrite)
     else:
         raise ValueError(f"Unknown map mode: {args.map}")

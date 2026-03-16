@@ -8,19 +8,22 @@ def render_band_pie(df, title, outdir, overwrite=False):
     if not should_write_output(outfile, overwrite=overwrite):
         return
 
-    counts = df["BAND"].value_counts()
+    bands = df["BAND"].astype(str).str.strip().str.lower()
+    counts = bands.value_counts()
 
     band_order = [
-        "160m","80m","60m","40m","30m","20m","17m",
-        "15m","12m","10m","6m","2m","70cm"
+        "160m","80m","60m","40m","30m",
+        "20m","17m","15m","12m","10m",
+        "6m","2m","70cm"
     ]
 
     counts = counts.reindex(band_order).dropna()
-
+    
     plt.figure()
     counts.plot.pie(autopct="%1.1f%%")
     plt.title(f"{title} — Band Distribution")
-    plt.savefig(outfile)
+    plt.ylabel("")
+    plt.savefig(outfile, dpi=300, bbox_inches="tight")
     plt.close()
 
 def render_mode_pie(df, title, outdir, overwrite=False):
