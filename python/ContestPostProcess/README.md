@@ -271,6 +271,7 @@ Selects the map style.
 
 | Mode | Description |
 |-----|-------------|
+| `all` | render all available maps |
 | `countries` | World map highlighting worked countries |
 | `states_dx` | World map showing US states, Canadian provinces, and DX countries |
 | `na_states_dx` | North America–focused map highlighting states/provinces |
