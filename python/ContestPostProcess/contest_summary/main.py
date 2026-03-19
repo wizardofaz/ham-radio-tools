@@ -73,7 +73,7 @@ def main():
     summary = compute_event_summary(
         df,
         gap_minutes=args.session_gap_minutes,
-        minimum_session_minutes=args.session_gap_minutes / 2.0,
+        minimum_session_minutes=args.session_gap_minutes / 2,
     )
 
     write_event_summary(summary, outdir)
