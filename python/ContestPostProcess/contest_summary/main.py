@@ -7,6 +7,7 @@ from .adif_utils import load_adif
 from .enrich import enrich_records
 from .maps import render_map
 from .summary import write_summary
+from .event_summary import compute_event_summary, write_event_summary
 from .operators import add_operator_column
 from .sessions import build_sessions
 from .modes import normalize_mode_series
@@ -68,6 +69,14 @@ def main():
 
     print("Generating map...")
     render_map(df, title, outdir, args, overwrite=args.overwrite)
+
+    summary = compute_event_summary(
+        df,
+        gap_minutes=args.session_gap_minutes,
+        minimum_session_minutes=args.session_gap_minutes / 2.0,
+    )
+
+    write_event_summary(summary, outdir)
 
     print("\nEnrichment statistics:")
     print(f" QSOs loaded: {stats['original']}")
